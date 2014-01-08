@@ -15,5 +15,8 @@ class User {
     static hasMany = [postsCreated:Post]
 
     static constraints = {
+        mail email:true, blank: false, unique: true
+        password blank:false, password:true, size:6..30
+        displayName size: 0..30, blank: false, unique: true
     }
 }

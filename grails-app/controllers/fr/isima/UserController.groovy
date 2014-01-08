@@ -17,6 +17,11 @@ class UserController {
 
     def create() {
         [userInstance: new User(params)]
+        /*def user = new User(params)
+        if (user.validate()) {
+            // user validated
+            [userInstance: user]
+        }*/
     }
 
     def save() {
