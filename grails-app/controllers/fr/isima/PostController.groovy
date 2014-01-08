@@ -2,6 +2,7 @@ package fr.isima
 
 import org.springframework.dao.DataIntegrityViolationException
 
+@SuppressWarnings("InvalidI18nProperty")
 class PostController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]

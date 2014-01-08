@@ -6,9 +6,13 @@ class Post {
     String content
     Date lastEditionDate
 
-    static belongsTo = [thread:Thread, author:User]
+    static belongsTo = [author:User]
     static hasMany = [posts:Post]
+    static hasOne = [thread:Thread, post:Post]
 
     static constraints = {
+        thread(validator: {val, obj ->
+            return obj.thread || obj.post
+        })
     }
 }
