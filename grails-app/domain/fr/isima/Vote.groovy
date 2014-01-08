@@ -2,8 +2,9 @@ package fr.isima
 
 class Vote {
 
-    Thread thread
+    Post post
     User user
+    boolean up
 
     static constraints = {
     }

@@ -6,13 +6,16 @@ class UserController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def userService
+
     def index() {
         redirect(action: "list", params: params)
     }
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [userInstanceList: User.list(params), userInstanceTotal: User.count()]
+
+        [userInstanceList: userService.getAllUsers(), userInstanceTotal: User.count()]
     }
 
     def create() {
@@ -31,7 +34,7 @@ class UserController {
     }
 
     def show(Long id) {
-        def userInstance = User.get(id)
+        def userInstance = userService.getUserById(id)
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])
             redirect(action: "list")
