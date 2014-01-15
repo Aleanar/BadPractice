@@ -56,7 +56,7 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="BadPractice-grailsPlugins" />
+    <orderEntry type="module" module-name="badpractice-grailsPlugins" />
   </component>
 </module>
 
