@@ -11,6 +11,10 @@ class ThreadService {
         thread.save()
     }
 
+    def threads() {
+        Thread.findAll()
+    }
+
     /**
      * Use to have the detail of a thread
      * @param id thread identifier
