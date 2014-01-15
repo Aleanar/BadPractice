@@ -7,5 +7,6 @@ class Tag {
     static hasMany = [threads:Thread]
 
     static constraints = {
+        name blank: false, unique:true
     }
 }

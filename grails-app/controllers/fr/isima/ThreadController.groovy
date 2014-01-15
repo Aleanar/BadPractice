@@ -4,6 +4,8 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class ThreadController {
 
+    def userService;
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -20,11 +22,40 @@ class ThreadController {
     }
 
     def save() {
-        def threadInstance = new Thread(params)
-        if (!threadInstance.save(flush: true)) {
+        def postInstance = new Post(params["post"])
+        def threadInstance = new Thread(params["thread"])
+        threadInstance.firstPost = postInstance
+        postInstance.thread = threadInstance
+        def currentDate = new Date(System.currentTimeMillis())
+        postInstance.creationDate = currentDate
+        postInstance.lastEditionDate = currentDate
+
+        /// Récupérer le user courrant.
+        if(userService.allUsers.size() == 0)
+        {
+            def author = new User();
+            author.mail = "marquesthom@gmail.com"
+            author.displayName = "Thomas MARQUES"
+            author.password = "Password"
+            author.realName = ""
+            author.website = ""
+            author.location = ""
+            author.birthday = currentDate
+            author.aboutMe = ""
+            author.pathToAvatar = ""
+            author.save()
+        }
+        postInstance.author = userService.allUsers.first();
+        ///
+
+        boolean invalidPost = !postInstance.validate()
+        if (!threadInstance.validate() || invalidPost)
+        {
             render(view: "create", model: [threadInstance: threadInstance])
             return
         }
+        threadInstance.save()
+        postInstance.save()
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'thread.label', default: 'Thread'), threadInstance.id])
         redirect(action: "show", id: threadInstance.id)

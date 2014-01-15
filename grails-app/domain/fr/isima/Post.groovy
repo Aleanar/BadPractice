@@ -14,5 +14,6 @@ class Post {
         thread(validator: {val, obj ->
             return obj.thread || obj.post
         })
+        content blank:false
     }
 }
