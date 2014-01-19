@@ -1,11 +1,13 @@
-<%@ page import="fr.isima.Thread" %>
+<%@ page import="fr.isima.Tag; fr.isima.Thread" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'thread.label', default: 'Thread')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
-	</head>
+        <link rel="stylesheet" href="${resource(dir: 'css', file: 'token.css')}" type="text/css"/>
+        <g:javascript library="autocomplete"/>
+    </head>
 	<body>
 		<a href="#create-thread" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div class="nav" role="navigation">
@@ -42,5 +44,15 @@
 				</fieldset>
 			</g:form>
 		</div>
+        <div id="create-tag">
+            <h1><g:message code="default.create.label" args="tag" /></h1>
+            <g:formRemote name="tagAddForm" url="[controller:'tag', action:'insertTag']" update="resultAddingTag">
+                <g:render template="../tag/form"/>
+                <g:submitButton name="tag.create.label"/>
+            </g:formRemote>
+            <div id="resultAddingTag">
+                <g:render template="../tag/resultInsertion"/>
+            </div>
+        </div>
 	</body>
 </html>

@@ -1,8 +1,11 @@
 package fr.isima
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class TagController {
+
+    def tagService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -21,7 +24,7 @@ class TagController {
 
     def save() {
         def tagInstance = new Tag(params)
-        if (!tagInstance.save(flush: true)) {
+        if (!tagService.addTag(tagInstance)) {
             render(view: "create", model: [tagInstance: tagInstance])
             return
         }
@@ -98,5 +101,16 @@ class TagController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'tag.label', default: 'Tag'), id])
             redirect(action: "show", id: id)
         }
+    }
+
+    def getTagsWithName() {
+        render tagService.getTagsWithName(params) as JSON
+    }
+
+    def insertTag() {
+        def tagInstance = new Tag(params)
+
+        tagService.addTag(tagInstance)
+        render(view: "_resultInsertion", model: [tagInstance: tagInstance, tagsList: tagService.getAllTagsOrderByUse()])
     }
 }

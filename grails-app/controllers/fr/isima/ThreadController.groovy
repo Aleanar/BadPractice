@@ -4,7 +4,9 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class ThreadController {
 
-    def userService;
+    def userService
+    def threadService
+    def tagService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -18,19 +20,19 @@ class ThreadController {
     }
 
     def create() {
-        [threadInstance: new Thread(params)]
-    }
-
-    def save() {
-        def postInstance = new Post(params["post"])
-        def threadInstance = new Thread(params["thread"])
-        threadInstance.firstPost = postInstance
-        postInstance.thread = threadInstance
-        def currentDate = new Date(System.currentTimeMillis())
-        postInstance.creationDate = currentDate
-        postInstance.lastEditionDate = currentDate
-
-        /// Récupérer le user courrant.
+        /// Pour les tests
+        if(tagService.tagList.size() == 0)
+        {
+            def tag = new Tag();
+            tag.name = "tagTest1"
+            tagService.addTag(tag)
+            tag = new Tag();
+            tag.name = "tagTest2"
+            tagService.addTag(tag)
+            tag = new Tag();
+            tag.name = "MyTagTest"
+            tagService.addTag(tag)
+        }
         if(userService.allUsers.size() == 0)
         {
             def author = new User();
@@ -40,22 +42,44 @@ class ThreadController {
             author.realName = ""
             author.website = ""
             author.location = ""
-            author.birthday = currentDate
+            author.birthday = new Date(System.currentTimeMillis())
             author.aboutMe = ""
             author.pathToAvatar = ""
             author.save()
         }
+        ///
+        def threadInstance = new Thread(params["thread"])
+        if(!threadInstance.tags)
+            threadInstance.tags = new HashSet<Tag>()
+        [threadInstance: threadInstance, tagsList: tagService.getAllTagsOrderByUse()]
+    }
+
+    def save() {
+        def postInstance = new Post(params["post"])
+        def threadInstance = new Thread(params["thread"])
+        threadInstance.firstPost = postInstance
+        if(!threadInstance.tags)
+            threadInstance.tags = new HashSet<Tag>()
+        postInstance.thread = threadInstance
+        def currentDate = new Date(System.currentTimeMillis())
+        postInstance.creationDate = currentDate
+        postInstance.lastEditionDate = currentDate
+
+        /// Les tags sont au format idNum1,idNum2,idNum3...
+        params.get("tag-name-auto").split(",").each {
+            def tag = tagService.getTagById(Long.parseLong(it)).get(0)
+            threadInstance.tags.add(tag)
+        }
+
+        /// Récupérer le user courrant.
         postInstance.author = userService.allUsers.first();
         ///
 
-        boolean invalidPost = !postInstance.validate()
-        if (!threadInstance.validate() || invalidPost)
+        if (threadService.newThread(threadInstance))
         {
             render(view: "create", model: [threadInstance: threadInstance])
             return
         }
-        threadInstance.save()
-        postInstance.save()
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'thread.label', default: 'Thread'), threadInstance.id])
         redirect(action: "show", id: threadInstance.id)
