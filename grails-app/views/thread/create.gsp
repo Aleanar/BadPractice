@@ -3,8 +3,9 @@
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'thread.label', default: 'Thread')}" />
-		<title><g:message code="default.create.label" args="[entityName]" /></title>
+        <g:set var="entityNameThread" value="${message(code: 'thread.entityName.label', default: '')}" />
+        <g:set var="entityNameTag" value="${message(code: 'tag.entityName.label', default: '')}" />
+		<title><g:message code="default.create.label" args="[entityNameThread]" /></title>
         <link rel="stylesheet" href="${resource(dir: 'css', file: 'token.css')}" type="text/css"/>
         <g:javascript library="autocomplete"/>
     </head>
@@ -13,11 +14,11 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityNameThread]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="create-thread" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+			<h1><g:message code="default.create.label" args="[entityNameThread]" /></h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -45,7 +46,7 @@
 			</g:form>
 		</div>
         <div id="create-tag">
-            <h1><g:message code="default.create.label" args="tag" /></h1>
+            <h1><g:message code="default.create.label" args="[entityNameTag]" /></h1>
             <g:formRemote name="tagAddForm" url="[controller:'tag', action:'insertTag']" update="resultAddingTag">
                 <g:render template="../tag/form"/>
                 <g:submitButton name="tag.create.label"/>
