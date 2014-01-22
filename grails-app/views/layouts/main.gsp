@@ -27,15 +27,10 @@
                     <a class="navbar-brand" href="#">${message(code: "site.title", default: "BadPractice")}</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <form class="navbar-form navbar-right" role="form">
-                        <div class="form-group">
-                            <input type="text" placeholder="${message(code: "site.sign.email", default: "Email")}" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" placeholder="${message(code: "site.sign.password", default: "Password")}" class="form-control">
-                        </div>
+                    <div class="navbar-form navbar-right" role="form">
                         <g:submitButton name="signin" class="btn btn-success" value="${message(code: "site.signin", default: "SignIn")}" />
-                    </form>
+                        <oauth:connect class="btn btn-success" provider="google">${message(code: "site.signup", default: "SignUp")}</oauth:connect>
+                    </div>
                 </div><!--/.navbar-collapse -->
             </div>
         </div>

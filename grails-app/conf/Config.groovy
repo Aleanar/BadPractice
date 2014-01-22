@@ -1,3 +1,5 @@
+import fr.isima.GoogleApi20
+
 // locations to search for config files that get merged into the main config;
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
@@ -63,11 +65,13 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         welcomeMessage = "Welcome on the development environment!"
+        googleCallback = 'http://localhost:8080/BadPractice'
     }
     production {
         grails.logging.jul.usebridge = false
         welcomeMessage = "Welcome on the production environment!"
         // TODO: grails.serverURL = "http://www.changeme.com"
+        googleCallback = 'http://aleanar.cloudbees.com/BadPractice'
     }
 }
 
@@ -90,4 +94,22 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+}
+
+// oauth configuration
+oauth {
+    providers {
+        google {
+            api = fr.isima.GoogleApi20
+            key = '931463954640.apps.googleusercontent.com'
+            secret = 'oD-FMb1ys9EweZgmg1PxqkPN'
+            scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read'
+            successUri = '/user/oauth'
+            failureUri = '/user/create'
+            callback = '${googleCallback}/oauth/google/callback'
+        }
+    }
+    debug = true
+    connectTimeout = 5000
+    receiveTimeout = 5000
 }

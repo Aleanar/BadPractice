@@ -1,12 +1,17 @@
 package fr.isima
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
+import uk.co.desirableobjects.oauth.scribe.OauthService
+import org.scribe.model.Token
 
 class UserController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def userService
+
+    def oauthService
 
     def index() {
         redirect(action: "list", params: params)
@@ -102,4 +107,23 @@ class UserController {
             redirect(action: "show", id: id)
         }
     }
+
+    def oauth() {
+
+        // Get OAuth token from session
+        def token = session[oauthService.findSessionKeyForAccessToken('google')]
+
+        // Retreive and parse
+        def oauthresources = oauthService.getGoogleResource(token, 'https://content.googleapis.com/plus/v1/people/me')
+        oauthresources = JSON.parse(oauthresources.body)
+
+        if (userService.getUserByMail(oauthresources.emails[0].value))
+            println("exist")
+        else
+            println("no")
+
+        redirect( controller: 'home' )
+
+    }
+
 }

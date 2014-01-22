@@ -20,34 +20,6 @@ class ThreadController {
     }
 
     def create() {
-        /// Pour les tests
-        if(tagService.tagList.size() == 0)
-        {
-            def tag = new Tag();
-            tag.name = "tagTest1"
-            tagService.addTag(tag)
-            tag = new Tag();
-            tag.name = "tagTest2"
-            tagService.addTag(tag)
-            tag = new Tag();
-            tag.name = "MyTagTest"
-            tagService.addTag(tag)
-        }
-        if(userService.allUsers.size() == 0)
-        {
-            def author = new User();
-            author.mail = "marquesthom@gmail.com"
-            author.displayName = "Thomas MARQUES"
-            author.password = "Password"
-            author.realName = ""
-            author.website = ""
-            author.location = ""
-            author.birthday = new Date(System.currentTimeMillis())
-            author.aboutMe = ""
-            author.pathToAvatar = ""
-            author.save()
-        }
-        ///
         def threadInstance = new Thread(params["thread"])
         if(!threadInstance.tags)
             threadInstance.tags = new HashSet<Tag>()

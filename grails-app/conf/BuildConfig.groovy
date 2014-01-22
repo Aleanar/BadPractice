@@ -32,10 +32,13 @@ grails.project.dependency.resolution = {
         mavenCentral()
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
-        //mavenRepo "http://snapshots.repository.codehaus.org"
-        //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
+        mavenRepo "http://snapshots.repository.codehaus.org"
+        mavenRepo "http://repository.codehaus.org"
+        mavenRepo "http://download.java.net/maven/2/"
+        mavenRepo "http://repository.jboss.com/maven2/"
+        mavenRepo "http://repo.desirableobjects.co.uk/"
+        mavenRepo 'http://repo.spring.io/milestone'
+
     }
 
     dependencies {
@@ -50,6 +53,8 @@ grails.project.dependency.resolution = {
         runtime ":resources:1.1.6"
         runtime ":jquery:1.8.3"
         compile ":jquery-ui:1.8.24"
+        runtime ':oauth:2.0.1'
+        //compile ':spring-security-oauth-google:0.1'
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
