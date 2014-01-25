@@ -1,5 +1,6 @@
 package fr.isima
 
+import fr.isima.filters.RedirectFilters
 import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 import uk.co.desirableobjects.oauth.scribe.OauthService
@@ -108,21 +109,28 @@ class UserController {
         }
     }
 
+    /**
+     * OAuth2 Authentification
+     */
     def oauth() {
 
         // Get OAuth token from session
         def token = session[oauthService.findSessionKeyForAccessToken('google')]
 
         // Retreive and parse
-        def oauthresources = oauthService.getGoogleResource(token, 'https://content.googleapis.com/plus/v1/people/me')
+        def oauthresources = oauthService.getGoogleResource(token, grailsApplication.config.oauth2.userinfo.url)
         oauthresources = JSON.parse(oauthresources.body)
 
-        if (userService.getUserByMail(oauthresources.emails[0].value))
-            println("exist")
-        else
-            println("no")
+        // User register
+        def user = userService.getUserByMail(oauthresources.emails[0].value)
+        if (!user) {
+            user = userService.createUserWithGooglePlusInfo(oauthresources)
+        }
 
-        redirect( controller: 'home' )
+        session['user'] = user
+
+        // Last redirection
+        redirect(uri: session[RedirectFilters.LAST_URL])
 
     }
 

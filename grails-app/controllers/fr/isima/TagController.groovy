@@ -19,10 +19,14 @@ class TagController {
     }
 
     def create() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         [tagInstance: new Tag(params)]
     }
 
     def save() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def tagInstance = new Tag(params)
         if (!tagService.addTag(tagInstance)) {
             render(view: "create", model: [tagInstance: tagInstance])
@@ -45,6 +49,8 @@ class TagController {
     }
 
     def edit(Long id) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def tagInstance = Tag.get(id)
         if (!tagInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'tag.label', default: 'Tag'), id])
@@ -56,6 +62,8 @@ class TagController {
     }
 
     def update(Long id, Long version) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def tagInstance = Tag.get(id)
         if (!tagInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'tag.label', default: 'Tag'), id])
@@ -85,6 +93,8 @@ class TagController {
     }
 
     def delete(Long id) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def tagInstance = Tag.get(id)
         if (!tagInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'tag.label', default: 'Tag'), id])

@@ -10,6 +10,10 @@ class Post {
     static hasMany = [posts:Post]
     static hasOne = [thread:Thread, post:Post]
 
+    static mapping = {
+        content type: 'text'
+    }
+
     static constraints = {
         thread(validator: {val, obj ->
             return obj.thread || obj.post

@@ -12,8 +12,8 @@
 		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
 		<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
-		<!--<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">-->
+		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
+    <!--<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">-->
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.min.css')}" type="text/css">
 		<g:layoutHead/>
         <r:require module="jquery-ui" />
@@ -24,20 +24,17 @@
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">${message(code: "site.title", default: "BadPractice")}</a>
+                    <a class="navbar-brand" href="${createLink(uri: '/')}">${message(code: "site.title", default: "BadPractice")}</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <div class="navbar-form navbar-right" role="form">
-                        <g:submitButton name="signin" class="btn btn-success" value="${message(code: "site.signin", default: "SignIn")}" />
-                        <oauth:connect class="btn btn-success" provider="google">${message(code: "site.signup", default: "SignUp")}</oauth:connect>
+                        <g:userConnection />
                     </div>
                 </div><!--/.navbar-collapse -->
             </div>
         </div>
 
-        <div class="jumbotron">
-            <h2>Get Started !</h2>
-        </div>
+        <g:jumbotron />
         <div class="container">
             <g:layoutBody/>
         </div>

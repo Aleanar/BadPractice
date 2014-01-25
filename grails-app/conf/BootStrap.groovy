@@ -8,17 +8,17 @@ class BootStrap {
     def init = { servletContext ->
 
         // Default tag
-        def tag = new Tag();
-        tag.name = "tagTest1"
+        /*def tag = new Tag();
+        tag.name = "Java"
         tagService.addTag(tag)
         tag = new Tag();
-        tag.name = "tagTest2"
+        tag.name = "Groovy"
         tagService.addTag(tag)
         tag = new Tag();
-        tag.name = "MyTagTest"
+        tag.name = "Grails"
         tagService.addTag(tag)
         tag = new Tag();
-        tag.name = "bonjour"
+        tag.name = "c++"
         tagService.addTag(tag)
 
         // Users creation
@@ -44,7 +44,7 @@ class BootStrap {
         author.birthday = new Date(System.currentTimeMillis())
         author.aboutMe = ""
         author.pathToAvatar = ""
-        author.save()
+        author.save()*/
 
     }
     def destroy = {

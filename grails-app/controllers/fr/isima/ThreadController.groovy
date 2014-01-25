@@ -20,6 +20,8 @@ class ThreadController {
     }
 
     def create() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
+
         def threadInstance = new Thread(params["thread"])
         if(!threadInstance.tags)
             threadInstance.tags = new HashSet<Tag>()
@@ -27,6 +29,8 @@ class ThreadController {
     }
 
     def save() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def postInstance = new Post(params["post"])
         def threadInstance = new Thread(params["thread"])
         threadInstance.firstPost = postInstance
@@ -69,6 +73,8 @@ class ThreadController {
     }
 
     def edit(Long id) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def threadInstance = Thread.get(id)
         if (!threadInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.label', default: 'Thread'), id])
@@ -80,6 +86,8 @@ class ThreadController {
     }
 
     def update(Long id, Long version) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def threadInstance = Thread.get(id)
         if (!threadInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.label', default: 'Thread'), id])
@@ -99,7 +107,7 @@ class ThreadController {
 
         threadInstance.properties = params
 
-        if (!threadInstance.save(flush: true)) {
+        if (!threadInstance.save(flush: true, failOnError: true)) {
             render(view: "edit", model: [threadInstance: threadInstance])
             return
         }
@@ -109,6 +117,8 @@ class ThreadController {
     }
 
     def delete(Long id) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def threadInstance = Thread.get(id)
         if (!threadInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.label', default: 'Thread'), id])

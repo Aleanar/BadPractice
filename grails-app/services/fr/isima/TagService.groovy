@@ -16,7 +16,7 @@ class TagService {
      * @return true if succeeded, false otherwise
      */
     def addTag(Tag tag) {
-        tag.save()
+        tag.save(flush:true)
     }
 
     /**

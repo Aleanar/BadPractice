@@ -17,10 +17,14 @@ class PostController {
     }
 
     def create() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         [postInstance: new Post(params)]
     }
 
     def save() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def postInstance = new Post(params)
         if (!postInstance.save(flush: true)) {
             render(view: "create", model: [postInstance: postInstance])
@@ -43,6 +47,8 @@ class PostController {
     }
 
     def edit(Long id) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def postInstance = Post.get(id)
         if (!postInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
@@ -54,6 +60,8 @@ class PostController {
     }
 
     def update(Long id, Long version) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def postInstance = Post.get(id)
         if (!postInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
@@ -83,6 +91,8 @@ class PostController {
     }
 
     def delete(Long id) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def postInstance = Post.get(id)
         if (!postInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])

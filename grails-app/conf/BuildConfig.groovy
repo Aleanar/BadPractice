@@ -55,6 +55,7 @@ grails.project.dependency.resolution = {
         compile ":jquery-ui:1.8.24"
         runtime ':oauth:2.0.1'
         //compile ':spring-security-oauth-google:0.1'
+        //compile ":spring-security-core:2.0-RC2"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"

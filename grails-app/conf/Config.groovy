@@ -61,17 +61,22 @@ grails.exceptionresolver.params.exclude = ['password']
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
 
+oauth2.userinfo.url = 'https://content.googleapis.com/plus/v1/people/me'
+
+grails.gorm.failOnError=true
+grails.gorm.flush=true
+
 environments {
     development {
         grails.logging.jul.usebridge = true
         welcomeMessage = "Welcome on the development environment!"
-        googleCallback = 'http://localhost:8080/BadPractice'
+        oauth2Callback = 'http://localhost:8080/BadPractice'
     }
     production {
         grails.logging.jul.usebridge = false
         welcomeMessage = "Welcome on the production environment!"
         // TODO: grails.serverURL = "http://www.changeme.com"
-        googleCallback = 'http://aleanar.cloudbees.com/BadPractice'
+        oauth2Callback = 'http://aleanar.cloudbees.com/BadPractice'
     }
 }
 
@@ -105,11 +110,12 @@ oauth {
             secret = 'oD-FMb1ys9EweZgmg1PxqkPN'
             scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read'
             successUri = '/user/oauth'
-            failureUri = '/user/create'
-            callback = '${googleCallback}/oauth/google/callback'
+            failureUri = '/'
+            callback = '${oauth2Callback}/oauth/google/callback'
         }
     }
     debug = true
     connectTimeout = 5000
     receiveTimeout = 5000
 }
+

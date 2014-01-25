@@ -16,9 +16,11 @@
 <div class="row">
     <h1>${message(code: 'home.threadList.label', default: 'Last Question')}</h1>
     <g:each in="${threads}" status="i" var="threadInstance">
-        <div class="col-md-4">
-            <g:link action="show" id="${threadInstance.id}">${fieldValue(bean: threadInstance, field: "title")}</g:link>
-
+        <div class="col-md-4 well">
+               <blockquote>
+                   <p><g:link controller="thread" action="show" id="${threadInstance.id}">${fieldValue(bean: threadInstance, field: "title")}</g:link></p>
+                   <small><cite title="Source Title">${threadInstance.firstPost.author.displayName}</cite></small>
+               </blockquote>
         </div>
     </g:each>
 </div>

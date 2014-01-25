@@ -13,7 +13,7 @@ class ThreadService {
 
         if (!status)
         {
-            thread.save()
+            thread.save(failOnError: true)
             thread.firstPost.save()
         }
 

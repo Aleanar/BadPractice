@@ -16,10 +16,14 @@ class VoteController {
     }
 
     def create() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         [voteInstance: new Vote(params)]
     }
 
     def save() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def voteInstance = new Vote(params)
         if (!voteInstance.save(flush: true)) {
             render(view: "create", model: [voteInstance: voteInstance])
@@ -53,6 +57,8 @@ class VoteController {
     }
 
     def update(Long id, Long version) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def voteInstance = Vote.get(id)
         if (!voteInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'vote.label', default: 'Vote'), id])
@@ -82,6 +88,8 @@ class VoteController {
     }
 
     def delete(Long id) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def voteInstance = Vote.get(id)
         if (!voteInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'vote.label', default: 'Vote'), id])

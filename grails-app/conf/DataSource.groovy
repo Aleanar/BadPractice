@@ -13,8 +13,8 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            url = "jdbc:h2:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
     }
     test {
@@ -54,7 +54,7 @@ environments {
             dialect = 'org.hibernate.dialect.MySQL5InnoDBDialect'
             pooled = false
 
-            dbCreate = 'create-drop' // WARNING! on production, should probably be 'update' or 'validate'
+            dbCreate = 'update' // WARNING! on production, should probably be 'update' or 'validate'
             jndiName = 'java:comp/env/jdbc/mydb'
         }
     }
