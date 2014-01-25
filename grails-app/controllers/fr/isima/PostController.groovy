@@ -7,6 +7,8 @@ class PostController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def userService
+
     def index() {
         redirect(action: "list", params: params)
     }

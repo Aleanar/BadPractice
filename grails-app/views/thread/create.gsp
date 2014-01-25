@@ -10,18 +10,15 @@
         <g:javascript library="autocomplete"/>
     </head>
 	<body>
-		<a href="#create-thread" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityNameThread]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="create-thread" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityNameThread]" /></h1>
+
+		<div id="create-thread" class="col-md-9" role="main">
+
+			<h1><g:message code="thread.create.label" args="[entityNameThread]" /></h1>
+
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
+
             <g:hasErrors bean="${threadInstance}">
                 <ul class="errors" role="alert">
                     <g:eachError bean="${threadInstance}" var="error">
@@ -36,24 +33,21 @@
                     </g:eachError>
                 </ul>
             </g:hasErrors>
-			<g:form action="save" >
-				<fieldset class="form">
-					<g:render template="form"/>
-				</fieldset>
-				<fieldset class="buttons">
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-				</fieldset>
-			</g:form>
+
+            <g:render template="form"/>
+
 		</div>
-        <div id="create-tag">
+
+        <div id="create-tag" class="col-md-3">
+
             <h1><g:message code="default.create.label" args="[entityNameTag]" /></h1>
+
             <g:formRemote name="tagAddForm" url="[controller:'tag', action:'insertTag']" update="resultAddingTag">
                 <g:render template="../tag/form"/>
                 <g:submitButton name="tag.create.label"/>
             </g:formRemote>
-            <div id="resultAddingTag">
-                <g:render template="../tag/resultInsertion"/>
-            </div>
+
         </div>
+
 	</body>
 </html>

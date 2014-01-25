@@ -1,32 +1,47 @@
 <%@ page import="fr.isima.Thread" %>
 
-<div class="fieldcontain ${hasErrors(bean: threadInstance, field: 'title', 'error')} ">
-	<label for="title">
-		<g:message code="thread.title.label" default="Title" />
-	</label>
-	<g:textField name="thread.title" value="${threadInstance?.title}" placeholder="thread.title.placeholder" />
-</div>
+<g:form action="save" class="form-horizontal" role="form">
 
-<div class="fieldcontain">
-    <label for="tags">
-        <g:message code="thread.tags.label" default="Tags" />
-    </label>
-    <g:textField name="tag-name-auto" value="" placeholder="thread.tags.placeholder" />
-</div>
+    <fieldset class="form">
 
-<div class="fieldcontain" >
-    <label for="author">
-        <g:message code="post.author.label" default="Author" />
-    </label>
-    <g:textField name="user.displayName" value="${threadInstance?.firstPost?.author?.displayName}" readonly="true" />
-</div>
+        <div class="form-group ${hasErrors(bean: threadInstance, field: 'title', 'error')}">
+            <label for="title" class="col-sm-2 control-label">
+                <g:message code="thread.title.label" default="Title" />
+            </label>
+            <div class="col-sm-10">
+                <g:textField id="title" name="thread.title" class="form-control" value="${threadInstance?.title}" placeholder="thread.title.placeholder" />
+            </div>
+        </div>
 
-<div class="fieldcontain ${hasErrors(bean: threadInstance?.firstPost, field: 'content', 'error')} ">
-    <label for="content">
-        <g:message code="post.content.label" default="Content" />
-    </label>
-    <g:textArea name="post.content" value="${threadInstance?.firstPost?.content}" rows="10" cols="50" placeholder="post.content.placeholder" />
-</div>
+        <div class="form-group">
+
+            <label for="tag-name-auto" class="col-sm-2 control-label">
+                <g:message code="thread.tags.label" default="Tags" />
+            </label>
+            <div class="col-sm-10">
+                <g:textField name="tag-name-auto" class="form-control" value="" placeholder="thread.tags.placeholder" />
+            </div>
+        </div>
+
+        <div class="form-group ${hasErrors(bean: threadInstance?.firstPost, field: 'content', 'error')}">
+            <label for="content" class="col-sm-2 control-label">
+                <g:message code="post.content.label" default="Content" />
+            </label>
+            <div class="col-sm-10">
+                <g:textArea id="content" class="form-control" name="post.content" value="${threadInstance?.firstPost?.content}" rows="10" cols="50" placeholder="post.content.placeholder" />
+            </div>
+        </div>
+
+    </fieldset>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <g:submitButton name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+        </div>
+    </div>
+
+</g:form>
+
 
 
 

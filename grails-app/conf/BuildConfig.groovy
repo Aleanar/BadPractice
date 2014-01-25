@@ -54,6 +54,7 @@ grails.project.dependency.resolution = {
         runtime ":jquery:1.8.3"
         compile ":jquery-ui:1.8.24"
         runtime ':oauth:2.0.1'
+        runtime ':twitter-bootstrap:3.0.3'
         //compile ':spring-security-oauth-google:0.1'
         //compile ":spring-security-core:2.0-RC2"
 

@@ -14,7 +14,14 @@
 
 <body>
 <div class="row">
-    <h1>${message(code: 'home.threadList.label', default: 'Last Question')}</h1>
+    <div class="">
+        <div class="pull-left">
+            <g:newquestion class="" />
+        </div>
+        <h1>${message(code: 'home.threadList.label', default: 'Last Question')}</h1>
+    </div>
+</div>
+<div class="row">
     <g:each in="${threads}" status="i" var="threadInstance">
         <div class="col-md-4 well">
                <blockquote>

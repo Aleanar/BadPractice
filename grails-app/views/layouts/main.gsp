@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.min.css')}" type="text/css">
 		<g:layoutHead/>
         <r:require module="jquery-ui" />
+        <r:require modules="bootstrap"/>
 		<r:layoutResources />
 	</head>
 	<body>
@@ -35,7 +36,7 @@
         </div>
 
         <g:jumbotron />
-        <div class="container">
+        <div id="mainContent" class="container">
             <g:layoutBody/>
         </div>
         <g:javascript library="application"/>
