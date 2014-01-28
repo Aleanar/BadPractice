@@ -41,6 +41,7 @@
 /out
 
 # other
+*.db
 *.iml
 *.iws
 /.idea
