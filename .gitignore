@@ -40,5 +40,6 @@
 /target
 
 # other
+*.iml
 *.iws
 /.idea
