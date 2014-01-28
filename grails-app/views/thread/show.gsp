@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'thread.label', default: 'Thread')}" />
+		<g:set var="entityName" value="${message(code: 'thread.entityName.label', default: 'Thread')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -17,53 +17,38 @@
 			</ul>
 		</div>
 		<div id="show-thread" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<ol class="property-list thread">
-			
-				<g:if test="${threadInstance?.posts}">
-				<li class="fieldcontain">
-					<span id="posts-label" class="property-label"><g:message code="thread.posts.label" default="Posts" /></span>
-					
-						<g:each in="${threadInstance.posts}" var="p">
-						<span class="property-value" aria-labelledby="posts-label"><g:link controller="post" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${threadInstance?.tags}">
-				<li class="fieldcontain">
-					<span id="tags-label" class="property-label"><g:message code="thread.tags.label" default="Tags" /></span>
-					
-						<g:each in="${threadInstance.tags}" var="t">
-						<span class="property-value" aria-labelledby="tags-label"><g:link controller="tag" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${threadInstance?.title}">
-				<li class="fieldcontain">
-					<span id="title-label" class="property-label"><g:message code="thread.title.label" default="Title" /></span>
-					
-						<span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${threadInstance}" field="title"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${threadInstance?.viewCount}">
-				<li class="fieldcontain">
-					<span id="viewCount-label" class="property-label"><g:message code="thread.viewCount.label" default="View Count" /></span>
-					
-						<span class="property-value" aria-labelledby="viewCount-label"><g:fieldValue bean="${threadInstance}" field="viewCount"/></span>
-					
-				</li>
-				</g:if>
-			
-			</ol>
+            <g:hasErrors bean="${postInstance}">
+                <ul class="errors" role="alert">
+                    <g:eachError bean="${postInstance}" var="error">
+                        <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+                    </g:eachError>
+                </ul>
+            </g:hasErrors>
+
+            <h1><g:fieldValue bean="${threadInstance}" field="title"/></h1><br />
+            <span class="property-value" name="viewCount"><g:fieldValue bean="${threadInstance}" field="viewCount"/></span><g:message code="thread.viewCount.label" /><br />
+            <g:set var="currentPost" value="${threadInstance.firstPost}" />
+            <g:render template="../post/showPost"/>
+
+            <g:each in="${threadInstance.getPostsToShow()}" var="post">
+                <g:if test="${post.id != threadInstance.firstPost.id}" >
+                    <g:set var="currentPost" value="${post}" />
+                    <g:render template="../post/showPost"/>
+                </g:if>
+            </g:each>
+
+            <g:form action="savePost" style="border: 1px darkgreen dashed" >
+                <fieldset class="form">
+                    <g:render template="../post/form"/>
+                </fieldset>
+                <fieldset class="buttons">
+                    <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                </fieldset>
+            </g:form>
+
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${threadInstance?.id}" />

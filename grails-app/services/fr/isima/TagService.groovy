@@ -68,7 +68,11 @@ class TagService {
         tagList.sort(new Comparator<Tag>() {
             @Override
             int compare(Tag o1, Tag o2) {
-                return (o1.threads ? o1.threads.size() : 0).compareTo(o2.threads ? o2.threads.size() : 0)
+                int compareResult = (o1.threads ? o1.threads.size() : 0).compareTo(o2.threads ? o2.threads.size() : 0);
+                if(compareResult == 0) {
+                    compareResult = o1.name.compareTo(o2.name)
+                }
+                return compareResult
             }
         })
         return tagList

@@ -1,5 +1,17 @@
 package fr.isima
 
+enum Rank {
+    Administrator("user.rank.admin"),
+    Moderator("user.rank.moderator"),
+    User("user.rank.user")
+
+    final String value
+
+    Rank(String value) { this.value = value }
+
+    String toString() { value }
+}
+
 class User {
 
     String mail
@@ -11,6 +23,7 @@ class User {
     Date birthday
     String aboutMe
     String pathToAvatar
+    Rank rank
 
     static hasMany = [postsCreated:Post]
 

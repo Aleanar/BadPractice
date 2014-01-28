@@ -8,7 +8,7 @@ class ThreadService {
      * @return true if succeeded, false otherwise
      */
     def newThread(Thread thread) {
-        boolean status = !thread.firstPost.validate()
+        boolean status = !thread.validate()
         status = !thread.firstPost.validate() || status
 
         if (!status)

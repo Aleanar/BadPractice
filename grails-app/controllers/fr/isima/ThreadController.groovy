@@ -7,8 +7,9 @@ class ThreadController {
     def userService
     def threadService
     def tagService
+    def postService
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST",savePost: "POST", update: "POST", delete: "POST"]
 
     def index() {
         redirect(action: "list", params: params)
@@ -29,7 +30,7 @@ class ThreadController {
     }
 
     def save() {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
 
         def postInstance = new Post(params["post"])
         def threadInstance = new Thread(params["thread"])
@@ -51,13 +52,36 @@ class ThreadController {
         postInstance.author = userService.allUsers.first();
         ///
 
-        if (threadService.newThread(threadInstance))
+        if (!threadService.newThread(threadInstance))
         {
             render(view: "create", model: [threadInstance: threadInstance])
             return
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'thread.label', default: 'Thread'), threadInstance.id])
+        redirect(action: "show", id: threadInstance.id)
+    }
+
+    def savePost() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
+
+        def threadInstance = threadService.getThreadById(Long.parseLong(params.get("thread.id")))
+        def postInstance = new Post()
+        postInstance.content = params.get("content")
+        postInstance.author = userService.getUserById(Long.parseLong(params.get("author.id")))
+        def currentDate = new Date()
+        postInstance.creationDate = currentDate
+        postInstance.lastEditionDate = currentDate
+        postInstance.post = null
+        postInstance.thread = threadInstance
+
+        if (!postService.newPost(postInstance))
+        {
+            render(view: "show", id: threadInstance.id, model: [threadInstance: threadInstance, postInstance: postInstance])
+            return
+        }
+
+        flash.message = message(code: 'default.created.message', args: [message(code: 'post.label', default: 'Post'), postInstance.id])
         redirect(action: "show", id: threadInstance.id)
     }
 
@@ -73,7 +97,7 @@ class ThreadController {
     }
 
     def edit(Long id) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
 
         def threadInstance = Thread.get(id)
         if (!threadInstance) {
@@ -86,7 +110,7 @@ class ThreadController {
     }
 
     def update(Long id, Long version) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
 
         def threadInstance = Thread.get(id)
         if (!threadInstance) {
@@ -107,7 +131,7 @@ class ThreadController {
 
         threadInstance.properties = params
 
-        if (!threadInstance.save(flush: true, failOnError: true)) {
+        if (!threadInstance.save(flush: true)) {
             render(view: "edit", model: [threadInstance: threadInstance])
             return
         }
@@ -117,7 +141,7 @@ class ThreadController {
     }
 
     def delete(Long id) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
 
         def threadInstance = Thread.get(id)
         if (!threadInstance) {
