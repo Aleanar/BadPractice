@@ -9,7 +9,7 @@
         <div id="resultAddingVote${currentPost.id}">
             <span id="voteResult">${currentPost.getCountingVote()}</span>
         </div>
-        <g:formRemote name="voteDownForm" url="[controller:'vote', action:'addVote']" update="resultAddingVote${currentPost.id}">
+        <g:formRemote name="voteDownForm" url="[controller:'vote', action:'addVote']" method="GET" update="resultAddingVote${currentPost.id}">
             <g:hiddenField name="up" value="0"/>
             <g:hiddenField name="postId" value="${currentPost.id}"/>
             <g:hiddenField name="authorId" value="1"/>

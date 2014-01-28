@@ -1,6 +1,7 @@
 import fr.isima.Post
 import fr.isima.Tag
 import fr.isima.User
+import fr.isima.Rank
 
 class BootStrap {
 
@@ -50,7 +51,7 @@ class BootStrap {
         author.save()*/
 
         /// Data test
-        def tag = new Tag()
+        /*def tag = new Tag()
         tag.name = "tagTest1"
         tagService.addTag(tag)
         tag = new Tag()
@@ -140,7 +141,7 @@ class BootStrap {
 
         thread.addToPosts(post)
 
-        thread.save()
+        thread.save()*/
     }
     def destroy = {
     }

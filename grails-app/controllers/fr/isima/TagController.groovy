@@ -6,6 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException
 class TagController {
 
     def tagService
+    def userService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -118,6 +119,8 @@ class TagController {
     }
 
     def insertTag() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+
         def tagInstance = new Tag(params)
 
         tagService.addTag(tagInstance)

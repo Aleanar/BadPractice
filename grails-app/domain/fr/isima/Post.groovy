@@ -11,6 +11,8 @@ class Post {
     static hasOne = [thread:Thread, post:Post]
 
     def getCountingVote() {
+        if(votes == null)
+            return 0
         return votes.size() - 2 * votes.count {!it.up}
     }
 
