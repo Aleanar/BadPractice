@@ -11,7 +11,6 @@ class UserController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def userService
-
     def oauthService
 
     def index() {
@@ -30,6 +29,7 @@ class UserController {
 
     def save() {
         def userInstance = new User(params)
+        userInstance.rank = Rank.User;
         if (!userInstance.save(flush: true)) {
             render(view: "create", model: [userInstance: userInstance])
             return
@@ -133,5 +133,4 @@ class UserController {
         redirect(uri: session[RedirectFilters.LAST_URL])
 
     }
-
 }

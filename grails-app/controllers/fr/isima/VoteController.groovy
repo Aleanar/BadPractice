@@ -2,7 +2,11 @@ package fr.isima
 
 import org.springframework.dao.DataIntegrityViolationException
 
+import javax.swing.text.html.HTML
+
 class VoteController {
+
+    def voteService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -16,16 +20,15 @@ class VoteController {
     }
 
     def create() {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
-
         [voteInstance: new Vote(params)]
     }
 
     def save() {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+        def up = ((int)params[vote].getAt("up")) == 1
+        def userId = params[vote].getAt("userId")
+        def postId = params[vote].getAt("postId")
 
-        def voteInstance = new Vote(params)
-        if (!voteInstance.save(flush: true)) {
+        if (voteService.addVote(userId, postId, up)) {
             render(view: "create", model: [voteInstance: voteInstance])
             return
         }
@@ -57,8 +60,6 @@ class VoteController {
     }
 
     def update(Long id, Long version) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
-
         def voteInstance = Vote.get(id)
         if (!voteInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'vote.label', default: 'Vote'), id])
@@ -88,8 +89,6 @@ class VoteController {
     }
 
     def delete(Long id) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
-
         def voteInstance = Vote.get(id)
         if (!voteInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'vote.label', default: 'Vote'), id])
@@ -107,4 +106,14 @@ class VoteController {
             redirect(action: "show", id: id)
         }
     }
+
+    def addVote() {
+        def up = params.getAt("up") == '1'
+        def userId = Long.parseLong(params.getAt("authorId"))
+        def postId = Long.parseLong(params.getAt("postId"))
+
+        voteService.addVote(userId, postId, up)
+        render voteService.getVoteByPostId(postId).toString()
+    }
+
 }
