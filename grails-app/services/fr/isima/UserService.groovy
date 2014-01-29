@@ -26,7 +26,8 @@ class UserService {
                 location: oauthresources.placesLived[0].value,
                 birthday: "",
                 aboutMe: "",
-                pathToAvatar: oauthresources.image.url
+                pathToAvatar: oauthresources.image.url,
+                rank: Rank.User
         )
 
         user.save()

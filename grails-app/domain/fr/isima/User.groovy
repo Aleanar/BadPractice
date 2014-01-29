@@ -27,6 +27,10 @@ class User {
 
     static hasMany = [postsCreated:Post]
 
+    static mapping = {
+        pathToAvatar type:'text'
+    }
+
     static constraints = {
         mail email:true, blank: false, unique: true
         displayName size: 0..30, blank: false, unique: true

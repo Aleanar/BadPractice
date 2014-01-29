@@ -21,6 +21,10 @@ class Thread {
     static hasMany = [tags:Tag, posts:Post]
     static belongsTo = Tag
 
+    static mapping = {
+        title type:'text'
+    }
+
     static constraints = {
         title blank:false
     }

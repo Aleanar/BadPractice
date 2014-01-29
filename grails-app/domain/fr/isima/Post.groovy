@@ -16,6 +16,10 @@ class Post {
         return votes.size() - 2 * votes.count {!it.up}
     }
 
+    static mapping = {
+        content type:'text'
+    }
+
     static constraints = {
         thread(validator: {val, obj ->
             return obj.thread || obj.post
