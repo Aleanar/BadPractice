@@ -48,9 +48,7 @@ class ThreadController {
             threadInstance.tags.add(tag)
         }
 
-        /// Récupérer le user courrant.
-        postInstance.author = userService.allUsers.first();
-        ///
+        postInstance.author = session[userService.USER_SESSION_OBJECT_NAME];
 
         if (!threadService.newThread(threadInstance))
         {
