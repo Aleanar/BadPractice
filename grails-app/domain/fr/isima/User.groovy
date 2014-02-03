@@ -12,6 +12,19 @@ enum Rank {
     String toString() { value }
 }
 
+enum RateElement {
+    ThreadCreated(10),
+    AnswerPosted(5),
+    CommentPosted(2),
+    AnswerDecremented(-10),
+    AnswerIncremented(10),
+    AnswerAccepted(50)
+
+    final int value
+
+    RateElement(int value) { this.value = value }
+}
+
 class User {
 
     String mail
@@ -24,6 +37,7 @@ class User {
     String aboutMe
     String pathToAvatar
     Rank rank
+    int reputation
 
     static hasMany = [postsCreated:Post]
 
@@ -36,5 +50,6 @@ class User {
         displayName size: 0..30, blank: false, unique: true
         password nullable: true
         birthday nullable: true
+        reputation min:0
     }
 }

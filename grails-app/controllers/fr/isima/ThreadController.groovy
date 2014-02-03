@@ -57,6 +57,7 @@ class ThreadController {
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'thread.label', default: 'Thread'), threadInstance.id])
+
         redirect(action: "show", id: threadInstance.id)
     }
 

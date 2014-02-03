@@ -27,10 +27,21 @@ class UserService {
                 birthday: "",
                 aboutMe: "",
                 pathToAvatar: oauthresources.image.url,
-                rank: Rank.User
+                rank: Rank.User,
+                reputation: 0
         )
 
         user.save()
+
+    }
+
+    def changeUserReputation(User user, newReputation) {
+        user.setReputation( user.getReputation() + newReputation )
+    }
+
+    def updateUserRate(User user, RateElement element) {
+
+        changeUserReputation( user, element.getValue() )
 
     }
 

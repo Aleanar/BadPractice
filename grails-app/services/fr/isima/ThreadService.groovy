@@ -2,19 +2,22 @@ package fr.isima
 
 class ThreadService {
 
+    def userService
+
     /**
      * Save a new thread
      * @param thread the thread to save
      * @return true if succeeded, false otherwise
      */
     def newThread(Thread thread) {
-        boolean status = !thread.validate()
-        status = !thread.firstPost.validate() || status
+        boolean status = thread.validate()
+        status = thread.firstPost.validate() || status
 
-        if (!status)
+        if (status)
         {
             thread.save(failOnError: true)
             thread.firstPost.save()
+            userService.updateUserRate(thread.firstPost.author, RateElement.ThreadCreated)
         }
 
         status
