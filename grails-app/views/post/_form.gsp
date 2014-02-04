@@ -1,6 +1,5 @@
 <%@ page import="fr.isima.Post" %>
 
-<g:hiddenField id="author" name="author.id" value="1" />
 <g:hiddenField id="thread" name="thread.id" value="${threadInstance.id}" />
 
 <div class="fieldcontain ${hasErrors(bean: postInstance, field: 'content', 'error')} ">

@@ -28,6 +28,7 @@ class PostController {
         if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
 
         def postInstance = new Post(params)
+        postInstance.author = session[userService.USER_SESSION_OBJECT_NAME];
         if (!postInstance.save(flush: true)) {
             render(view: "create", model: [postInstance: postInstance])
             return
