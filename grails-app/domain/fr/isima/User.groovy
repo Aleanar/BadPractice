@@ -39,7 +39,7 @@ class User {
     Rank rank
     int reputation
 
-    static hasMany = [postsCreated:Post]
+    static hasMany = [postsCreated:Post, votes:Vote]
 
     static mapping = {
         pathToAvatar type:'text'

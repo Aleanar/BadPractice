@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
+		<g:set var="entityName" value="${message(code: 'user.entityName.label', default: 'User')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -13,20 +13,42 @@
         <div class="row">
             <div class="col-md-9">
 
-                <h2>Last thread</h2>
+                <h2><g:message code="user.thread.participated.post" /></h2>
                 <g:if test="${userInstance?.postsCreated}">
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th>Title</th>
+                            <th><g:message code="user.thread.list.title"/></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${userInstance.postsCreated}" var="p">
-                            <g:if test="${p?.thread}">
+                        <g:each in="${userInstance.postsCreated*.thread.unique()}" var="p">
+                            <g:if test="${p}">
                                 <tr>
                                     <td>
-                                        <g:link controller="thread" action="show" id="${p.thread.id}">${p.thread.title}</g:link>
+                                        <g:link controller="thread" action="show" id="${p.id}">${p.title}</g:link>
+                                    </td>
+                                </tr>
+                            </g:if>
+                        </g:each>
+                        </tbody>
+                    </table>
+                </g:if>
+
+                <g:if test="${userInstance.votes*.post?.thread?.size() > 0}">
+                    <h2><g:message code="user.thread.participated.vote" /></h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th><g:message code="user.thread.list.title"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <g:each in="${userInstance.votes*.post?.thread?.unique()}" var="p">
+                            <g:if test="${p}">
+                                <tr>
+                                    <td>
+                                        <g:link controller="thread" action="show" id="${p.id}">${p.title}</g:link>
                                     </td>
                                 </tr>
                             </g:if>

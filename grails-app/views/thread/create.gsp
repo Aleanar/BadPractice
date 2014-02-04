@@ -7,6 +7,7 @@
         <g:set var="entityNameTag" value="${message(code: 'tag.entityName.label', default: '')}" />
 		<title><g:message code="default.create.label" args="[entityNameThread]" /></title>
         <link rel="stylesheet" href="${resource(dir: 'css', file: 'token.css')}" type="text/css"/>
+        <ckeditor:resources/>
         <g:javascript library="autocomplete"/>
     </head>
 	<body>

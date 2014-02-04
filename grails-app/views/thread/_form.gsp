@@ -28,7 +28,9 @@
                 <g:message code="post.content.label" default="Content" />
             </label>
             <div class="col-sm-10">
-                <g:textArea id="content" class="form-control" name="post.content" value="${threadInstance?.firstPost?.content}" rows="10" cols="50" placeholder="post.content.placeholder" />
+                <ckeditor:editor id="content" name="post.content" height="300px" width="100%">
+                    ${threadInstance?.firstPost?.content}
+                </ckeditor:editor>
             </div>
         </div>
 

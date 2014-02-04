@@ -5,6 +5,7 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'thread.label', default: 'Thread')}" />
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
+        <ckeditor:resources/>
 	</head>
 	<body>
 		<a href="#edit-thread" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
