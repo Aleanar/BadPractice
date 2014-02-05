@@ -67,7 +67,7 @@ class ThreadController {
         def threadInstance = threadService.getThreadById(Long.parseLong(params.get("thread.id")))
         def postInstance = new Post()
         postInstance.content = params.get("content")
-        postInstance.author = userService.getUserById(Long.parseLong(params.get("author.id")))
+        postInstance.author = session[userService.USER_SESSION_OBJECT_NAME]
         def currentDate = new Date()
         postInstance.creationDate = currentDate
         postInstance.lastEditionDate = currentDate
