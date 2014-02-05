@@ -32,7 +32,7 @@
             <span class="property-value" name="viewCount"><g:fieldValue bean="${threadInstance}" field="viewCount"/></span><g:message code="thread.viewCount.label" /><br />
             <g:set var="currentPost" value="${threadInstance.firstPost}" />
             <g:render template="../post/showPost"/>
-
+            
             <g:each in="${threadInstance.getPostsToShow()}" var="post">
                 <g:if test="${post.id != threadInstance.firstPost.id}" >
                     <g:set var="currentPost" value="${post}" />

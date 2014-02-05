@@ -14,3 +14,19 @@
     position: relative;
 }
 
+.tag-separator {
+    border-bottom: 1px solid #ccc;
+    margin: 0 100px 0 100px;
+}
+.tag-square {
+    width:150px;
+    height:100px;
+    background-color:#d9534f;
+    border-radius:3px;
+    margin-top:5px;
+    margin-bottom:5px;
+    padding-top: 25px;
+    color: #fff;
+    font-size: 2em;
+    text-align: center;
+}

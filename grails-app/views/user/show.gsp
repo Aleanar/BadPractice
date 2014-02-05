@@ -58,7 +58,7 @@
                 </g:if>
 
             </div>
-            <div class="col-md-3 responsive-utility">
+            <div class="col-md-3 visible-lg visible-md">
 
                 <div style="position:absolute;top:-40px;right:0px;width:300px;height:500px;overflow:hidden;text-align:center;">
                     <%--<img src="<g:fieldValue bean="${userInstance}" field="pathToAvatar"/>0" style="opacity:0.2;z-index:-1000;" />--%>

@@ -14,23 +14,25 @@
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
     <!--<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">-->
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.min.css')}" type="text/css">
+    <!--<link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.min.css')}" type="text/css">-->
 		<g:layoutHead/>
-        <r:require module="jquery-ui" />
         <r:require modules="bootstrap"/>
+        <r:require module="jquery" />
 		<r:layoutResources />
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="${createLink(uri: '/')}">${message(code: "site.title", default: "BadPractice")}</a>
                 </div>
-                <div class="navbar-collapse collapse">
-                    <div class="navbar-form navbar-right" role="form">
-                        <g:userConnection />
-                    </div>
+                <div class="navbar-collapse collapse navbar-right">
+                            <g:userConnection />
+                    <!--<div class="navbar-form navbar-right" role="form">
+
+                    </div>-->
                 </div><!--/.navbar-collapse -->
             </div>
         </div>

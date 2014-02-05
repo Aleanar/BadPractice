@@ -45,7 +45,7 @@ class ThreadController {
         /// Les tags sont au format idNum1,idNum2,idNum3...
         params.get("tag-name-auto").split(",").each {
             def tag = tagService.getTagById(Long.parseLong(it)).get(0)
-            threadInstance.tags.add(tag)
+            threadInstance.addToTags(tag)
         }
 
         postInstance.author = session[userService.USER_SESSION_OBJECT_NAME];
