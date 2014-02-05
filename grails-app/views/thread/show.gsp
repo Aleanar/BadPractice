@@ -8,15 +8,8 @@
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
-		<a href="#show-thread" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="show-thread" class="content scaffold-show" role="main">
+
+        <div id="show-thread" class="content scaffold-show" role="main">
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -28,8 +21,11 @@
                 </ul>
             </g:hasErrors>
 
-            <h1><g:fieldValue bean="${threadInstance}" field="title"/></h1><br />
-            <span class="property-value" name="viewCount"><g:fieldValue bean="${threadInstance}" field="viewCount"/></span><g:message code="thread.viewCount.label" /><br />
+            <h1>
+                <g:fieldValue bean="${threadInstance}" field="title"/>
+                <small><g:fieldValue bean="${threadInstance}" field="viewCount"/> <g:message code="thread.viewCount.label" /></small>
+            </h1>
+
             <g:set var="currentPost" value="${threadInstance.firstPost}" />
             <g:render template="../post/showPost"/>
             

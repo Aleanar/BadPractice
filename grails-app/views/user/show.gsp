@@ -9,7 +9,7 @@
 	</head>
 	<body>
         <h1><g:fieldValue bean="${userInstance}" field="displayName"/></h1>
-        <div class="row"><g:badges/></div>
+        <div class="row"><g:badges userId="${userInstance.id}"/></div>
         <div class="row">
             <div class="col-md-9">
 

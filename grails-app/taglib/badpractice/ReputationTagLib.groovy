@@ -6,9 +6,10 @@ class ReputationTagLib {
 
     def userService
 
-    def badges = {
+    def badges = { attrs, body ->
 
-        def reputation = session[userService.USER_SESSION_OBJECT_NAME].getReputation()
+        def user = userService.getUserById(attrs.long('userId'))
+        def reputation = user.getReputation()
 
         int rookieBadgesNumber, amateurBadgesNumber, ultimateBadgesNumber
         if (reputation < 100) {
