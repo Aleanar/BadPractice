@@ -22,6 +22,7 @@ class VoteService {
             vote.user = user
             vote.post = post
             vote.up = up
+            vote.date = new Date()
             vote.save()
         }
         else
@@ -32,6 +33,7 @@ class VoteService {
             userService.updateUserRate(post.author, rate)
 
             listVote.first().up = up
+            listVote.first().date = new Date()
             listVote.first().save(flush: true)
 
         }

@@ -44,7 +44,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${userInstance.votes*.post?.thread?.unique()}" var="p">
+                        <g:each in="${userInstance.votes.sort{-(it.date.time)}*.post?.thread?.unique()}" var="p">
                             <g:if test="${p}">
                                 <tr>
                                     <td>
@@ -63,7 +63,7 @@
                 <div style="position:absolute;top:-40px;right:0px;width:300px;height:500px;overflow:hidden;text-align:center;">
                     <%--<img src="<g:fieldValue bean="${userInstance}" field="pathToAvatar"/>0" style="opacity:0.2;z-index:-1000;" />--%>
                     <a href="https://en.gravatar.com/site/login">
-                        <avatar:gravatar email="${userInstance.mail}" style="opacity:0.2;z-index:-1000;" alt="Avatar" size="500"/>
+                        <avatar:gravatar email="${userInstance.mail}" style="opacity:0.2;z-index:-1000;" alt="Avatar" size="512"/>
                     </a>
                     <a href="<g:fieldValue bean="${userInstance}" field="website"/>" class="btn btn-success" style="position:absolute;bottom:10px;left:10px;">See Website</a>
                     <div style="position:absolute;bottom:10px;right:10px;"><g:fieldValue bean="${userInstance}" field="location"/></div>

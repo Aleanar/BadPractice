@@ -85,13 +85,14 @@ class ThreadController {
     }
 
     def show(Long id) {
-        def threadInstance = Thread.get(id)
+        def threadInstance = threadService.getThreadById(id)
         if (!threadInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.label', default: 'Thread'), id])
             redirect(action: "list")
             return
         }
 
+        threadService.incrementView(id);
         [threadInstance: threadInstance]
     }
 

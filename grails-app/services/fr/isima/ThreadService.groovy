@@ -64,4 +64,7 @@ class ThreadService {
             vote.save()
     }
 
+    def incrementView(Long id) {
+        ++Thread.get(id).viewCount;
+    }
 }

@@ -53,7 +53,7 @@ class BootStrap {
         author.save()
 
         /// Data test
-        def tag = new Tag()
+        tag = new Tag()
         tag.name = "tagTest1"
         tagService.addTag(tag)
         tag = new Tag()
@@ -76,11 +76,6 @@ class BootStrap {
 
         thread.firstPost = post
         thread.tags = new HashSet<>()
-
-        tag = new Tag();
-        tag.name = "Java"
-        tagService.addTag(tag)
-        thread.tags.add(tag)
 
         tag = new Tag()
         tag.name = "Eclipse"
