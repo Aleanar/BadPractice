@@ -23,7 +23,7 @@ class UserController {
         [userInstanceList: userService.getAllUsers(), userInstanceTotal: User.count()]
     }
 
-    def create() {
+    /*def create() {
         [userInstance: new User(params)]
     }
 
@@ -37,7 +37,7 @@ class UserController {
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
         redirect(action: "show", id: userInstance.id)
-    }
+    }*/
 
     def show(Long id) {
         def userInstance = userService.getUserById(id)
@@ -47,10 +47,24 @@ class UserController {
             return
         }
 
-        [userInstance: userInstance]
+        def isAdmin = false
+        if(session[userService.USER_SESSION_OBJECT_NAME]) {
+            isAdmin = (session[userService.USER_SESSION_OBJECT_NAME].rank == Rank.Administrator)
+        }
+
+        [userInstance: userInstance, isAdmin: isAdmin]
     }
 
     def edit(Long id) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME])
+            redirect(controller: "home")
+
+        def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
+        def isAdmin = (userConnected.rank == Rank.Administrator)
+
+        if(userConnected.id != id && !isAdmin)
+            redirect(controller: "home")
+
         def userInstance = User.get(id)
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])
@@ -58,10 +72,19 @@ class UserController {
             return
         }
 
-        [userInstance: userInstance]
+        [userInstance: userInstance, isAdmin: isAdmin]
     }
 
     def update(Long id, Long version) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME])
+            redirect(controller: "home")
+
+        def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
+        def isAdmin = (userConnected.rank == Rank.Administrator)
+
+        if(userConnected.id != id && !isAdmin)
+            redirect(controller: "home")
+
         def userInstance = User.get(id)
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])
@@ -132,5 +155,10 @@ class UserController {
         // Last redirection
         redirect(uri: session[RedirectFilters.LAST_URL])
 
+    }
+
+    def logout() {
+        session['user'] = null
+        redirect(controller: "home")
     }
 }

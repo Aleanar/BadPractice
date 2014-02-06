@@ -1,21 +1,32 @@
 <%@ page import="fr.isima.User" %>
 
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'mail', 'error')} ">
+<g:if test="${isAdmin}" >
+    <div>
+        <label for="rank">
+            <g:message code="user.rank.label" default="Rank" />
+        </label>
+        <g:select name="rank" from="${fr.isima.Rank.values()}" value="${userInstance.rank.toString()}">
+        </g:select>
+    </div>
+</g:if>
+
+<div>
+    <a href="https://en.gravatar.com/site/login" target="_blank" >
+        <avatar:gravatar email="${userInstance.mail}" alt="Avatar" size="100"/>
+    </a>
+    <br />
+    <label>
+        <g:message code="user.gravatar.label" default="Mail" />
+    </label>
+</div>
+
+<div>
 	<label for="mail">
 		<g:message code="user.mail.label" default="Mail" />
-		
 	</label>
-	<g:textField name="mail" value="${userInstance?.mail}"/>
+    <g:hiddenField name="mail" value="${userInstance.mail}"/>
+    ${userInstance?.mail}
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'password', 'error')} ">
-	<label for="password">
-		<g:message code="user.password.label" default="Password" />
-		
-	</label>
-	<g:passwordField name="password" value="${userInstance?.password}"/>
-</div>
-
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'displayName', 'error')} ">
     <label for="displayName">
@@ -55,14 +66,6 @@
 		
 	</label>
 	<g:textField name="website" value="${userInstance?.website}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'pathToAvatar', 'error')} ">
-    <label for="pathToAvatar">
-        <g:message code="user.pathToAvatar.label" default="Path To Avatar" />
-
-    </label>
-    <g:textField name="pathToAvatar" value="${userInstance?.pathToAvatar}"/>
 </div>
 
 

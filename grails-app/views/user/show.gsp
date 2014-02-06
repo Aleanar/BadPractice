@@ -62,14 +62,21 @@
 
                 <div style="position:absolute;top:-40px;right:0px;width:300px;height:500px;overflow:hidden;text-align:center;">
                     <%--<img src="<g:fieldValue bean="${userInstance}" field="pathToAvatar"/>0" style="opacity:0.2;z-index:-1000;" />--%>
-                    <a href="https://en.gravatar.com/site/login">
-                        <avatar:gravatar email="${userInstance.mail}" style="opacity:0.2;z-index:-1000;" alt="Avatar" size="512"/>
-                    </a>
+                    <avatar:gravatar email="${userInstance.mail}" style="opacity:0.2;z-index:-1000;" alt="Avatar" size="512"/>
                     <a href="<g:fieldValue bean="${userInstance}" field="website"/>" class="btn btn-success" style="position:absolute;bottom:10px;left:10px;">See Website</a>
                     <div style="position:absolute;bottom:10px;right:10px;"><g:fieldValue bean="${userInstance}" field="location"/></div>
                 </div>
 
             </div>
         </div>
+    <g:if test="${isAdmin}" >
+        <g:form>
+            <fieldset class="buttons">
+                <g:hiddenField name="id" value="${userInstance.id}" />
+                <g:link class="edit" action="edit" id="${userInstance.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+                <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+            </fieldset>
+        </g:form>
+    </g:if>
 	</body>
 </html>

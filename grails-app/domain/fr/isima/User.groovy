@@ -1,9 +1,9 @@
 package fr.isima
 
 enum Rank {
-    Administrator("user.rank.admin"),
-    Moderator("user.rank.moderator"),
-    User("user.rank.user")
+    Administrator("Administrator"),
+    Moderator("Moderator"),
+    User("User")
 
     final String value
 
