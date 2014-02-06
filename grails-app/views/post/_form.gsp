@@ -2,10 +2,11 @@
 
 <g:hiddenField id="thread" name="thread.id" value="${threadInstance.id}" />
 
-<div class="fieldcontain ${hasErrors(bean: postInstance, field: 'content', 'error')} ">
+<div class="form-group ${hasErrors(bean: postInstance, field: 'content', 'error')} ">
     <label for="content">
-        <g:message code="post.content.label" default="Content" />
+        <h3><g:message for="post-editor" code="thread.answer.create.label" default="Answer" /></h3>
     </label>
-    <g:textArea name="content" value="${postInstance?.content}" rows="10" cols="50" placeholder="post.content.placeholder" />
+    <g:textArea id="post-editor" class="form-control" name="content" value="${postInstance?.content}" rows="30" cols="50" placeholder="post.content.placeholder" />
 </div>
+
 

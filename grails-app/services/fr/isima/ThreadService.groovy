@@ -11,7 +11,7 @@ class ThreadService {
      */
     def newThread(Thread thread) {
         boolean status = thread.validate()
-        status = thread.firstPost.validate() || status
+        status = thread.firstPost.validate() && status
 
         if (status)
         {

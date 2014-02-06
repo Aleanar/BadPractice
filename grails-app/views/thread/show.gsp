@@ -10,9 +10,7 @@
 	<body>
 
         <div id="show-thread" class="content scaffold-show" role="main">
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
+            <g:message />
             <g:hasErrors bean="${postInstance}">
                 <ul class="errors" role="alert">
                     <g:eachError bean="${postInstance}" var="error">
@@ -30,20 +28,25 @@
             <g:render template="../post/showPost"/>
             
             <g:each in="${threadInstance.getPostsToShow()}" var="post">
+
                 <g:if test="${post.id != threadInstance.firstPost.id}" >
                     <g:set var="currentPost" value="${post}" />
                     <g:render template="../post/showPost"/>
                 </g:if>
+
             </g:each>
 
-            <g:form action="savePost" style="border: 1px darkgreen dashed" >
-                <fieldset class="form">
+
+            <g:if test="${session['user']}">
+            <g:form action="savePost" role="form">
+                <fieldset>
                     <g:render template="../post/form"/>
                 </fieldset>
-                <fieldset class="buttons">
-                    <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                <fieldset>
+                    <g:submitButton name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" />
                 </fieldset>
             </g:form>
+            </g:if>
 
 			<g:form>
 				<fieldset class="buttons">

@@ -7,3 +7,12 @@ if (typeof jQuery !== 'undefined') {
 		});
 	})(jQuery);
 }
+
+$(document).ready(function() {
+    $('#post-editor').summernote();
+    $('#comment-editor').summernote({
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']]
+        ]
+    });
+});
