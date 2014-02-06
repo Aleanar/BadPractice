@@ -25,4 +25,8 @@ class PostService {
 
     }
 
+    def update(Post post) {
+        post.save()
+    }
+
 }

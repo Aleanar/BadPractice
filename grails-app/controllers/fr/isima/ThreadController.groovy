@@ -123,13 +123,16 @@ class ThreadController {
         }
 
         def isEditable = false
-        if(session[userService.USER_SESSION_OBJECT_NAME]) {
-            def isAdmin = (session[userService.USER_SESSION_OBJECT_NAME].rank == Rank.Administrator)
-            isEditable = (isAdmin | (session[userService.USER_SESSION_OBJECT_NAME].id == threadInstance.firstPost.author.id))
+        def isAdmin = false
+        def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
+
+        if(userConnected) {
+            isAdmin = (userConnected.rank == Rank.Administrator)
+            isEditable = (isAdmin | (userConnected.id == threadInstance.firstPost.author.id))
         }
 
         threadService.incrementView(id);
-        [threadInstance: threadInstance, isEditable: isEditable]
+        [threadInstance: threadInstance, isEditable: isEditable, isAdmin: isAdmin, userConnected: userConnected]
     }
 
     def edit(Long id) {

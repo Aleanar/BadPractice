@@ -20,6 +20,13 @@
                     <g:hiddenField name="postId" value="${currentPost.id}"/>
                     <button class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-chevron-down"></i></button>
                 </g:formRemote>
+                <g:if test="${isAdmin || currentPost.author.id == userConnected?.id}" >
+                    <g:form>
+                        <fieldset class="buttons" >
+                            <g:link class="edit" action="edit" controller="post" id="${currentPost.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+                        </fieldset>
+                    </g:form>
+                </g:if>
             </div>
 
 
