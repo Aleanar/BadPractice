@@ -5,8 +5,9 @@
 		<meta name="layout" content="main">
         <g:set var="entityNameThread" value="${message(code: 'thread.entityName.label', default: '')}" />
         <g:set var="entityNameTag" value="${message(code: 'tag.entityName.label', default: '')}" />
-        <title><g:message code="default.edit.label" args="[entityName]" /></title>
+        <title><g:message code="default.edit.label" args="[entityNameThread]" /></title>
         <ckeditor:resources/>
+        <link rel="stylesheet" href="${resource(dir: 'css', file: 'token.css')}" type="text/css"/>
         <g:javascript library="autocomplete"/>
 	</head>
 	<body>
@@ -35,12 +36,13 @@
 				<g:hiddenField name="version" value="${threadInstance?.version}" />
 				<fieldset class="form">
 					<g:render template="form"/>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <g:submitButton name="update" class="save btn btn-default" value="${message(code: 'default.button.update.label', default: 'Update')}" />
-                        </div>
-                    </div>
 				</fieldset>
+                <fieldset class="buttons">
+                    <g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
+                    <g:if test="${isAdmin}" >
+                        <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+                    </g:if>
+                </fieldset>
 			</g:form>
 		</div>
 	</body>

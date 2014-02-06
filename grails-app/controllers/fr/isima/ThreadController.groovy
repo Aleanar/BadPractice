@@ -122,25 +122,44 @@ class ThreadController {
             return
         }
 
+        def isEditable = false
+        if(session[userService.USER_SESSION_OBJECT_NAME]) {
+            def isAdmin = (session[userService.USER_SESSION_OBJECT_NAME].rank == Rank.Administrator)
+            isEditable = (isAdmin | (session[userService.USER_SESSION_OBJECT_NAME].id == threadInstance.firstPost.author.id))
+        }
+
         threadService.incrementView(id);
-        [threadInstance: threadInstance]
+        [threadInstance: threadInstance, isEditable: isEditable]
     }
 
     def edit(Long id) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
+            redirect(uri: "/oauth/google/authenticate")
+            return
+        }
 
         def threadInstance = Thread.get(id)
+
         if (!threadInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.label', default: 'Thread'), id])
             redirect(action: "list")
             return
         }
 
-        [threadInstance: threadInstance, tagsEnregistred: threadInstance.tags]
+        def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
+        def isAdmin = (userConnected.rank == Rank.Administrator)
+
+        if(userConnected.id != threadInstance.firstPost.author.id && !isAdmin)
+            redirect(controller: "home")
+
+        [threadInstance: threadInstance, tagsEnregistred: threadInstance.tags, tagsList: tagService.getAllTagsOrderByUse(), isAdmin: isAdmin]
     }
 
     def update(Long id, Long version) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
+            redirect(controller: "home")
+            return
+        }
 
         def threadInstance = Thread.get(id)
         if (!threadInstance) {
@@ -148,6 +167,12 @@ class ThreadController {
             redirect(action: "list")
             return
         }
+
+        def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
+        def isAdmin = (userConnected.rank == Rank.Administrator)
+
+        if(userConnected.id != threadInstance.firstPost.author.id && !isAdmin)
+            redirect(controller: "home")
 
         if (version != null) {
             if (threadInstance.version > version) {
@@ -159,9 +184,18 @@ class ThreadController {
             }
         }
 
-        threadInstance.properties = params
+        /// Les tags sont au format idNum1,idNum2,idNum3...
+        params.get("tag-name-auto").split(",").each {
+            def tag = tagService.getTagById(Long.parseLong(it)).get(0)
+            /// On ajoute uniquement les nouveaux tags
+            if(!threadInstance.tags.contains(tag))
+                threadInstance.addToTags(tag)
+        }
 
-        if (!threadInstance.save(flush: true)) {
+        threadInstance.title = params.get("thread.title")
+        threadInstance.firstPost.content = params.get("post.content")
+
+        if (!threadService.updateThread(threadInstance)) {
             render(view: "edit", model: [threadInstance: threadInstance])
             return
         }

@@ -126,6 +126,8 @@ class BootStrap {
         thread.addToPosts(post)
 
         thread.save()*/
+
+        userService.getUserById(2).rank = Rank.Administrator
     }
     def destroy = {
     }

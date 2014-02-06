@@ -15,16 +15,14 @@
         <g:message code="thread.tags.label" default="Tags" />
     </label>
     <div class="col-sm-10">
-        <g:textField name="tag-name-auto" class="form-control" value="" placeholder="thread.tags.placeholder" />
-    </div>
-    <g:if test="${tagsEnregistred}" >
-        <label for="tag-name-auto" class="col-sm-2 control-label">
+        <g:textField name="tag-name-auto" class="form-control" value="" placeholder="thread.tags.placeholder" /><br/>
+        <g:if test="${tagsEnregistred}" >
             <g:message code="thread.tags.already.enregistred" default="Tags : " />
             <g:each in="${tagsEnregistred}" var="tag">
                 ${tag.name}
             </g:each>
-        </label>
-    </g:if>
+        </g:if>
+    </div>
 </div>
 
 <div class="form-group ${hasErrors(bean: threadInstance?.firstPost, field: 'content', 'error')}">

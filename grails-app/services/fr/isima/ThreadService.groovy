@@ -67,4 +67,8 @@ class ThreadService {
     def incrementView(Long id) {
         ++Thread.get(id).viewCount;
     }
+
+    def updateThread(Thread thread) {
+        thread.save(failOnError: true)
+    }
 }

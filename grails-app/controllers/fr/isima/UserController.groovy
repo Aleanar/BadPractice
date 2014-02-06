@@ -48,19 +48,23 @@ class UserController {
         }
 
         def isAdmin = false
+        def isEditable = false
         if(session[userService.USER_SESSION_OBJECT_NAME]) {
             isAdmin = (session[userService.USER_SESSION_OBJECT_NAME].rank == Rank.Administrator)
+            isEditable = (isAdmin | (session[userService.USER_SESSION_OBJECT_NAME].id == id))
         }
 
-        [userInstance: userInstance, isAdmin: isAdmin]
+        [userInstance: userInstance, isEditable: isEditable, isAdmin: isAdmin]
     }
 
     def edit(Long id) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME])
-            redirect(controller: "home")
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
+            redirect(uri: "/oauth/google/authenticate")
+            return
+        }
 
         def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
-        def isAdmin = (userConnected.rank == Rank.Administrator)
+        def isAdmin = false//(userConnected.rank == Rank.Administrator)
 
         if(userConnected.id != id && !isAdmin)
             redirect(controller: "home")
@@ -76,8 +80,10 @@ class UserController {
     }
 
     def update(Long id, Long version) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME])
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
             redirect(controller: "home")
+            return
+        }
 
         def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
         def isAdmin = (userConnected.rank == Rank.Administrator)
@@ -114,6 +120,14 @@ class UserController {
     }
 
     def delete(Long id) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
+            redirect(controller: "home")
+            return
+        }
+
+        if(session[userService.USER_SESSION_OBJECT_NAME].id == id)
+            session[userService.USER_SESSION_OBJECT_NAME] = null;
+
         def userInstance = User.get(id)
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])
