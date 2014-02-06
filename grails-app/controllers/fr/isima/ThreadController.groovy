@@ -106,7 +106,7 @@ class ThreadController {
             return
         }
 
-        [threadInstance: threadInstance]
+        [threadInstance: threadInstance, tagsEnregistred: threadInstance.tags]
     }
 
     def update(Long id, Long version) {

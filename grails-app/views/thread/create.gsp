@@ -35,8 +35,19 @@
                 </ul>
             </g:hasErrors>
 
-            <g:render template="form"/>
+            <g:form action="save" class="form-horizontal" role="form">
+                <fieldset class="form">
 
+                    <g:render template="form"/>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <g:submitButton name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                        </div>
+                    </div>
+
+                </fieldset>
+            </g:form>
 		</div>
 
         <div id="create-tag" class="col-md-3">
@@ -47,8 +58,6 @@
                 <g:render template="../tag/form"/>
                 <g:submitButton name="tag.create.label"/>
             </g:formRemote>
-
         </div>
-
 	</body>
 </html>

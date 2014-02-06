@@ -1,48 +1,42 @@
 <%@ page import="fr.isima.Thread" %>
 
-<g:form action="save" class="form-horizontal" role="form">
-
-    <fieldset class="form">
-
-        <div class="form-group ${hasErrors(bean: threadInstance, field: 'title', 'error')}">
-            <label for="title" class="col-sm-2 control-label">
-                <g:message code="thread.title.label" default="Title" />
-            </label>
-            <div class="col-sm-10">
-                <g:textField id="title" name="thread.title" class="form-control" value="${threadInstance?.title}" placeholder="thread.title.placeholder" />
-            </div>
-        </div>
-
-        <div class="form-group">
-
-            <label for="tag-name-auto" class="col-sm-2 control-label">
-                <g:message code="thread.tags.label" default="Tags" />
-            </label>
-            <div class="col-sm-10">
-                <g:textField name="tag-name-auto" class="form-control" value="" placeholder="thread.tags.placeholder" />
-            </div>
-        </div>
-
-        <div class="form-group ${hasErrors(bean: threadInstance?.firstPost, field: 'content', 'error')}">
-            <label for="content" class="col-sm-2 control-label">
-                <g:message code="post.content.label" default="Content" />
-            </label>
-            <div class="col-sm-10">
-                <ckeditor:editor id="content" name="post.content" height="300px" width="100%">
-                    ${threadInstance?.firstPost?.content}
-                </ckeditor:editor>
-            </div>
-        </div>
-
-    </fieldset>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <g:submitButton name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-        </div>
+<div class="form-group ${hasErrors(bean: threadInstance, field: 'title', 'error')}">
+    <label for="title" class="col-sm-2 control-label">
+        <g:message code="thread.title.label" default="Title" />
+    </label>
+    <div class="col-sm-10">
+        <g:textField id="title" name="thread.title" class="form-control" value="${threadInstance?.title}" placeholder="thread.title.placeholder" />
     </div>
+</div>
 
-</g:form>
+<div class="form-group">
+
+    <label for="tag-name-auto" class="col-sm-2 control-label">
+        <g:message code="thread.tags.label" default="Tags" />
+    </label>
+    <div class="col-sm-10">
+        <g:textField name="tag-name-auto" class="form-control" value="" placeholder="thread.tags.placeholder" />
+    </div>
+    <g:if test="${tagsEnregistred}" >
+        <label for="tag-name-auto" class="col-sm-2 control-label">
+            <g:message code="thread.tags.already.enregistred" default="Tags : " />
+            <g:each in="${tagsEnregistred}" var="tag">
+                ${tag.name}
+            </g:each>
+        </label>
+    </g:if>
+</div>
+
+<div class="form-group ${hasErrors(bean: threadInstance?.firstPost, field: 'content', 'error')}">
+    <label for="content" class="col-sm-2 control-label">
+        <g:message code="post.content.label" default="Content" />
+    </label>
+    <div class="col-sm-10">
+        <ckeditor:editor id="content" name="post.content" height="300px" width="100%">
+            ${threadInstance?.firstPost?.content}
+        </ckeditor:editor>
+    </div>
+</div>
 
 
 

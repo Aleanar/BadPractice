@@ -59,7 +59,7 @@ class PostController {
             return
         }
 
-        [postInstance: postInstance]
+        [postInstance: postInstance, threadInstance: postInstance.thread]
     }
 
     def update(Long id, Long version) {
