@@ -5,10 +5,11 @@ class Post {
     Date creationDate
     String content
     Date lastEditionDate
+    Thread thread
 
     static belongsTo = [author:User]
     static hasMany = [posts:Post, votes:Vote]
-    static hasOne = [thread:Thread, post:Post]
+    static hasOne = [post:Post]
 
     def getCountingVote() {
         if(votes == null)
@@ -21,9 +22,9 @@ class Post {
     }
 
     static constraints = {
-        thread(validator: {val, obj ->
-            return obj.thread || obj.post
+        thread(nullable:true,validator: {val, obj ->
+            return (obj.thread != obj.post)
         })
-        content blank:false, minSize: 1
+        content null:false, blank:false, minSize: 1
     }
 }

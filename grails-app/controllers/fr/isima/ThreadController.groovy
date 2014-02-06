@@ -84,6 +84,36 @@ class ThreadController {
         redirect(action: "show", id: threadInstance.id)
     }
 
+    def saveComment() {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
+
+        def post = postService.getPostById(Long.parseLong(params.get("post.id")))
+        def threadInstance = threadService.getThreadById(Long.parseLong(params.get("thread.id")))
+
+        if (post)
+        {
+
+            def commentInstance = new Post()
+            commentInstance.content = params.get("content")
+            commentInstance.author = session[userService.USER_SESSION_OBJECT_NAME]
+            def currentDate = new Date()
+            commentInstance.creationDate = currentDate
+            commentInstance.lastEditionDate = currentDate
+            commentInstance.post = post
+
+            if (!postService.newPost(commentInstance))
+            {
+                render(view: "show", id: threadInstance.id, model: [threadInstance: threadInstance, commentInstance: commentInstance])
+                return
+            }
+
+        }
+
+        flash.message = message(code: 'default.created.message', args: [message(code: 'post.label', default: 'Post'), post.id])
+        redirect(action: "show", id: threadInstance.id)
+
+    }
+
     def show(Long id) {
         def threadInstance = threadService.getThreadById(id)
         if (!threadInstance) {

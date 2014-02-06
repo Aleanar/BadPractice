@@ -10,4 +10,9 @@ if (typeof jQuery !== 'undefined') {
 
 $(document).ready(function() {
     $('#post-editor').summernote();
+    $('#comment-editor').summernote({
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']]
+        ]
+    });
 });

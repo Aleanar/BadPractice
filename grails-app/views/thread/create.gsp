@@ -19,18 +19,19 @@
 			<g:message />
 
             <g:hasErrors bean="${threadInstance}">
-                <ul class="errors" role="alert">
+                <div class="alert alert-danger" role="alert">
                     <g:eachError bean="${threadInstance}" var="error">
-                        <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+                        <p><g:message error="${error}"/></p>
                     </g:eachError>
-                </ul>
+                </div>
             </g:hasErrors>
+
             <g:hasErrors bean="${threadInstance?.firstPost}">
-                <ul class="errors" role="alert">
+                <div class="alert alert-danger" role="alert">
                     <g:eachError bean="${threadInstance?.firstPost}" var="error">
-                        <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+                        <p><g:message error="${error}"/></p>
                     </g:eachError>
-                </ul>
+                </div>
             </g:hasErrors>
 
             <g:render template="form"/>

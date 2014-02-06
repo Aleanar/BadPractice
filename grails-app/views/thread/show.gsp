@@ -28,11 +28,14 @@
             <g:render template="../post/showPost"/>
             
             <g:each in="${threadInstance.getPostsToShow()}" var="post">
+
                 <g:if test="${post.id != threadInstance.firstPost.id}" >
                     <g:set var="currentPost" value="${post}" />
                     <g:render template="../post/showPost"/>
                 </g:if>
+
             </g:each>
+
 
             <g:if test="${session['user']}">
             <g:form action="savePost" role="form">

@@ -50,4 +50,33 @@
 
     </div>
 
+    <div style="margin-right:100px;" class="">
+        <g:each in="${currentPost.posts}" var="comment">
+            <blockquote class="blockquote-reverse" style="font-size:0.9em;">
+                ${comment.content}
+                <footer>${comment.author.displayName}</footer>
+            </blockquote>
+        </g:each>
+    </div>
+
+    <g:if test="${session['user']}">
+
+        <div id="comment-form-${currentPost.id}" style="display:none;top:-61px;" class="col-md-6 col-md-offset-4">
+            <g:form action="saveComment" role="form">
+                <fieldset>
+                    <g:hiddenField id="post" name="post.id" value="${currentPost.id}" />
+                    <g:render template="../post/comment"/>
+                </fieldset>
+                <fieldset>
+                    <g:submitButton name="create" class="save btn btn-default" value="${message(code: 'thread.comment.create', default: 'Create')}" />
+                </fieldset>
+            </g:form>
+        </div>
+        <div class="clearfix"></div>
+        <div>
+            <a onclick="$(this).hide(); $('#comment-form-${currentPost.id}').show();" class="" href="#">${message(code: 'thread.comment.create.label', default: 'Post a comment')}</a>
+        </div>
+
+    </g:if>
+
 </g:if>
