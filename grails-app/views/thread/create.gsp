@@ -16,9 +16,7 @@
 
 			<h1><g:message code="thread.create.label" args="[entityNameThread]" /></h1>
 
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
+			<g:message />
 
             <g:hasErrors bean="${threadInstance}">
                 <ul class="errors" role="alert">

@@ -10,7 +10,7 @@
                     <g:badges userId="${currentUser.id}"/>
                 </div>
             </div>
-            <div class=""><avatar:gravatar email="${currentUser.mail}" alt="Avatar"/></div>
+            <div><avatar:gravatar cssClass="img-circle" email="${currentUser.mail}" alt="Avatar"/></div>
     </g:link>
     </div>
     <div class="clearfix"></div>
