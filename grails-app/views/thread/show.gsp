@@ -9,8 +9,9 @@
 	</head>
 	<body>
 
-        <div id="show-thread" class="content scaffold-show" role="main">
-            <g:message />
+        <div id="show-thread" role="main">
+            <g:flashMessage />
+
             <g:hasErrors bean="${postInstance}">
                 <ul class="errors" role="alert">
                     <g:eachError bean="${postInstance}" var="error">

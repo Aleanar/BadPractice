@@ -16,7 +16,7 @@
 
 			<h1><g:message code="thread.create.label" args="[entityNameThread]" /></h1>
 
-			<g:message />
+			<g:flashMessage />
 
             <g:hasErrors bean="${threadInstance}">
                 <div class="alert alert-danger" role="alert">
