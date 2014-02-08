@@ -9,7 +9,7 @@ class ThreadController {
     def tagService
     def postService
 
-    static allowedMethods = [save: "POST",savePost: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST",savePost: "POST", update: "POST", delete: "GET"]
 
     def index() {
         redirect(action: "create", params: params)
