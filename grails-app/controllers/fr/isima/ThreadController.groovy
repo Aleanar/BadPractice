@@ -12,12 +12,7 @@ class ThreadController {
     static allowedMethods = [save: "POST",savePost: "POST", update: "POST", delete: "POST"]
 
     def index() {
-        redirect(action: "list", params: params)
-    }
-
-    def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [threadInstanceList: Thread.list(params), threadInstanceTotal: Thread.count()]
+        redirect(action: "create", params: params)
     }
 
     def create() {
@@ -56,7 +51,7 @@ class ThreadController {
             return
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'thread.label', default: 'Thread'), threadInstance.id])
+        flash.message = message(code: 'default.created.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), threadInstance.id])
 
         redirect(action: "show", id: threadInstance.id)
     }
@@ -80,7 +75,7 @@ class ThreadController {
             return
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'post.label', default: 'Post'), postInstance.id])
+        flash.message = message(code: 'default.created.message', args: [message(code: 'post.entityName.label', default: 'Post'), postInstance.id])
         redirect(action: "show", id: threadInstance.id)
     }
 
@@ -109,7 +104,7 @@ class ThreadController {
 
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'post.label', default: 'Post'), post.id])
+        flash.message = message(code: 'default.created.message', args: [message(code: 'post.entityName.label', default: 'Post'), post.id])
         redirect(action: "show", id: threadInstance.id)
 
     }
@@ -117,8 +112,8 @@ class ThreadController {
     def show(Long id) {
         def threadInstance = threadService.getThreadById(id)
         if (!threadInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.label', default: 'Thread'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), id])
+            redirect(action: "index")
             return
         }
 
@@ -141,11 +136,11 @@ class ThreadController {
             return
         }
 
-        def threadInstance = Thread.get(id)
+        def threadInstance = threadService.getThreadById(id)
 
         if (!threadInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.label', default: 'Thread'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), id])
+            redirect(action: "index")
             return
         }
 
@@ -164,10 +159,10 @@ class ThreadController {
             return
         }
 
-        def threadInstance = Thread.get(id)
+        def threadInstance = threadService.getThreadById(id)
         if (!threadInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.label', default: 'Thread'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), id])
+            redirect(action: "index")
             return
         }
 
@@ -180,7 +175,7 @@ class ThreadController {
         if (version != null) {
             if (threadInstance.version > version) {
                 threadInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                        [message(code: 'thread.label', default: 'Thread')] as Object[],
+                        [message(code: 'thread.entityName.label', default: 'Thread')] as Object[],
                         "Another user has updated this Thread while you were editing")
                 render(view: "edit", model: [threadInstance: threadInstance])
                 return
@@ -203,27 +198,27 @@ class ThreadController {
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'thread.label', default: 'Thread'), threadInstance.id])
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), threadInstance.id])
         redirect(action: "show", id: threadInstance.id)
     }
 
     def delete(Long id) {
         if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
 
-        def threadInstance = Thread.get(id)
+        def threadInstance = threadService.getThreadById(id)
         if (!threadInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.label', default: 'Thread'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), id])
+            redirect(action: "index")
             return
         }
 
         try {
             threadInstance.delete(flush: true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'thread.label', default: 'Thread'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), id])
+            redirect(action: "index")
         }
         catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'thread.label', default: 'Thread'), id])
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), id])
             redirect(action: "show", id: id)
         }
     }

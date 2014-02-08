@@ -2,7 +2,6 @@ package fr.isima
 
 import org.springframework.dao.DataIntegrityViolationException
 
-@SuppressWarnings("InvalidI18nProperty")
 class PostController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -11,12 +10,7 @@ class PostController {
     def postService
 
     def index() {
-        redirect(action: "list", params: params)
-    }
-
-    def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [postInstanceList: Post.list(params), postInstanceTotal: Post.count()]
+        redirect(controller: "home", action: "index", params: params)
     }
 
     def create() {
@@ -35,15 +29,15 @@ class PostController {
             return
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'post.label', default: 'Post'), postInstance.id])
+        flash.message = message(code: 'default.created.message', args: [message(code: 'post.entityName.label', default: 'Post'), postInstance.id])
         redirect(action: "show", controller: "thread", id: (postInstance.thread ? postInstance.thread.id : postInstance.post.thread.id))
     }
 
     def show(Long id) {
         def postInstance = postService.getPostById(id)
         if (!postInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.entityName.label', default: 'Post'), id])
+            redirect(action: "index")
             return
         }
 
@@ -55,8 +49,8 @@ class PostController {
 
         def postInstance = postService.getPostById(id)
         if (!postInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.entityName.label', default: 'Post'), id])
+            redirect(action: "index")
             return
         }
 
@@ -74,8 +68,8 @@ class PostController {
 
         def postInstance = postService.getPostById(id)
         if (!postInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.entityName.label', default: 'Post'), id])
+            redirect(action: "index")
             return
         }
 
@@ -88,7 +82,7 @@ class PostController {
         if (version != null) {
             if (postInstance.version > version) {
                 postInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                        [message(code: 'post.label', default: 'Post')] as Object[],
+                        [message(code: 'post.entityName.label', default: 'Post')] as Object[],
                         "Another user has updated this Post while you were editing")
                 render(view: "edit", model: [postInstance: postInstance])
                 return
@@ -102,7 +96,7 @@ class PostController {
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'post.label', default: 'Post'), postInstance.id])
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'post.entityName.label', default: 'Post'), postInstance.id])
         redirect(action: "show", controller: "thread", id: (postInstance.thread ? postInstance.thread.id : postInstance.post.thread.id))
     }
 
@@ -111,18 +105,18 @@ class PostController {
 
         def postInstance = postService.getPostById(id)
         if (!postInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.entityName.label', default: 'Post'), id])
+            redirect(action: "index")
             return
         }
 
         try {
             postInstance.delete(flush: true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'post.label', default: 'Post'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'post.entityName.label', default: 'Post'), id])
+            redirect(action: "index")
         }
         catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'post.label', default: 'Post'), id])
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'post.entityName.label', default: 'Post'), id])
             redirect(action: "show", id: id)
         }
     }
