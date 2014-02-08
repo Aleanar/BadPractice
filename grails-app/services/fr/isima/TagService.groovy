@@ -25,7 +25,7 @@ class TagService {
      * @return A list of tags
      */
     def getTagById(Long id) {
-        Tag.findAllById(id)
+        Tag.findById(id)
     }
 
     /**

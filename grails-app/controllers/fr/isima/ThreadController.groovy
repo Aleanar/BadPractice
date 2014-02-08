@@ -30,20 +30,26 @@ class ThreadController {
         def postInstance = new Post(params["post"])
         def threadInstance = new Thread(params["thread"])
         threadInstance.firstPost = postInstance
-        if(!threadInstance.tags)
-            threadInstance.tags = new HashSet<Tag>()
+        /*if(!threadInstance.tags)
+            threadInstance.tags = new HashSet<Tag>()*/
         postInstance.thread = threadInstance
         def currentDate = new Date(System.currentTimeMillis())
         postInstance.creationDate = currentDate
         postInstance.lastEditionDate = currentDate
+        postInstance.author = session[userService.USER_SESSION_OBJECT_NAME];
 
         /// Les tags sont au format idNum1,idNum2,idNum3...
-        params.get("tag-name-auto").split(",").each {
-            def tag = tagService.getTagById(Long.parseLong(it)).get(0)
-            threadInstance.addToTags(tag)
+        def tags = params.get("tag-name-auto")
+        if (tags) {
+            def list = new ArrayList<Tag>()
+            params.get("tag-name-auto")?.split(",")?.each {
+                def tag = tagService.getTagById(Long.parseLong(it))
+                list.add(tag)
+            }
+            list.each {
+                threadInstance.addToTags(it)
+            }
         }
-
-        postInstance.author = session[userService.USER_SESSION_OBJECT_NAME];
 
         if (!threadService.newThread(threadInstance))
         {
