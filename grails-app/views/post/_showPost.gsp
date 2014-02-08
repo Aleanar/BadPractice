@@ -1,10 +1,13 @@
 <g:if test="${currentPost}">
 
-    <div class="well well-lg">
+    <div class="well well-lg" style="position:relative;">
+        <g:if test="${isAdmin || currentPost.author.id == userConnected?.id}" >
+            <g:link class="btn btn-default btn-sm" style="position:absolute; top:0; right:0;" action="edit" controller="post" id="${currentPost.id}">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </g:link>
+        </g:if>
 
         <div class="col-md-1">
-
-
 
             <div id="vote" class="text-center" name="vote">
                 <g:formRemote name="voteUpForm" url="[controller:'vote', action:'addVote']" method="GET" update="resultAddingVote${currentPost.id}">
@@ -20,15 +23,7 @@
                     <g:hiddenField name="postId" value="${currentPost.id}"/>
                     <button class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-chevron-down"></i></button>
                 </g:formRemote>
-                <g:if test="${isAdmin || currentPost.author.id == userConnected?.id}" >
-                    <g:form>
-                        <fieldset class="buttons" >
-                            <g:link class="edit" action="edit" controller="post" id="${currentPost.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-                        </fieldset>
-                    </g:form>
-                </g:if>
             </div>
-
 
         </div>
         <div class="col-md-11">
