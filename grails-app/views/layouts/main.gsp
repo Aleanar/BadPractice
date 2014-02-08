@@ -41,9 +41,22 @@
         </div>
 
         <g:jumbotron />
-        <div id="mainContent" class="container">
+        <div id="mainContent" class="container" style="padding-bottom:60px;">
             <g:layoutBody/>
         </div>
+
+        <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-collapse collapse navbar-left">
+                    <p class="navbar-text">2014 - BadPractice</p>
+                </div>
+                <div style="position:relative;">
+                    <div style="background-image:url(${resource(dir: 'images', file: 'wrongway.png')});width:100px;height:89px;position:absolute;bottom:-50px;left:calc(50% - 50px);"></div>
+                </div>
+            </div>
+        </nav>
+
+
         <g:javascript library="application"/>
         <r:layoutResources />
 	</body>
