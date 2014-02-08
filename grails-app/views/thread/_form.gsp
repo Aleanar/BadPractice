@@ -5,7 +5,7 @@
         <g:message code="thread.title.label" default="Title" />
     </label>
     <div class="col-sm-10">
-        <g:textField id="title" name="thread.title" class="form-control" value="${threadInstance?.title}" placeholder="thread.title.placeholder" />
+        <g:textField id="title" name="thread.title" class="form-control" value="${threadInstance?.title}" placeholder="${message(code: 'thread.title.placeholder', default: 'thread.title.placeholder')}" />
     </div>
 </div>
 
@@ -15,7 +15,7 @@
         <g:message code="thread.tags.label" default="Tags" />
     </label>
     <div class="col-sm-10">
-        <g:textField name="tag-name-auto" class="form-control" value="" placeholder="thread.tags.placeholder" /><br/>
+        <g:textField name="tag-name-auto" class="form-control" value="" placeholder="${message(code: 'thread.tags.placeholder', default: 'thread.tags.placeholder')}" /><br/>
         <g:if test="${tagsEnregistred}" >
             <g:message code="thread.tags.already.enregistred" default="Tags : " />
             <g:each in="${tagsEnregistred}" var="tag">

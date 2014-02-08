@@ -6,7 +6,7 @@
     <label for="content">
         <h3><g:message for="post-editor" code="thread.answer.create.label" default="Answer" /></h3>
     </label>
-    <g:textArea id="post-editor" class="form-control" name="content" value="${postInstance?.content}" rows="30" cols="50" placeholder="post.content.placeholder" />
+    <g:textArea id="post-editor" class="form-control" name="content" value="${postInstance?.content}" rows="30" cols="50" placeholder="${message(code: 'post.content.placeholder', default: 'post.content.placeholder')}" />
 </div>
 
 
