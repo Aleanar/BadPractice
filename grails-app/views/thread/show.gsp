@@ -20,10 +20,22 @@
                 </ul>
             </g:hasErrors>
 
-            <h1>
+            <div>
+            <h1 class="pull-left">
                 <g:fieldValue bean="${threadInstance}" field="title"/>
                 <small><g:fieldValue bean="${threadInstance}" field="viewCount"/> <g:message code="thread.viewCount.label" /></small>
             </h1>
+            <g:if test="${isEditable}" >
+                <div class="btn-group pull-right" style="margin-top:20px;">
+                    <g:link class="btn btn-default btn-sm" action="edit" id="${threadInstance.id}"><span class="glyphicon glyphicon-pencil"></span></g:link>
+                    <g:link class="btn btn-default btn-sm" action="delete" id="${threadInstance.id}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
+                        <span class="glyphicon glyphicon-remove" style="color:#d9534f;"></span>
+                    </g:link>
+                </div>
+            </g:if>
+            </div>
+
+            <div class="clearfix"></div>
 
             <g:set var="currentPost" value="${threadInstance.firstPost}" />
             <g:render template="../post/showPost"/>
@@ -49,14 +61,5 @@
                 </g:form>
             </g:if>
 		</div>
-        <g:if test="${isEditable}" >
-            <g:form>
-                <fieldset class="buttons">
-                    <g:hiddenField name="id" value="${threadInstance.id}" />
-                    <g:link class="edit" action="edit" id="${threadInstance.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-                    <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-                </fieldset>
-            </g:form>
-        </g:if>
 	</body>
 </html>
