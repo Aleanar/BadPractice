@@ -23,9 +23,9 @@
 </div>
 <div class="row">
     <g:each in="${threads}" status="i" var="threadInstance">
-        <div class="col-md-4 well">
-               <blockquote>
-                   <p><g:link controller="thread" action="show" id="${threadInstance.id}">${fieldValue(bean: threadInstance, field: "title")}</g:link></p>
+        <div class="col-md-10 well" style="padding:0 0 0 20px;">
+               <blockquote style="margin-bottom:0;">
+                   <g:link controller="thread" action="show" id="${threadInstance.id}">${fieldValue(bean: threadInstance, field: "title")}</g:link>
                    <small><cite title="Source Title">${threadInstance.firstPost.author.displayName}</cite></small>
                </blockquote>
         </div>
