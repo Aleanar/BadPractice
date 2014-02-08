@@ -18,12 +18,14 @@ class UserService {
 
     def createUserWithGooglePlusInfo(oauthresources) {
 
+        log.info('user information ' + oauthresources)
+
         def user = new User(
                 mail:oauthresources.emails[0].value,
                 displayName: oauthresources.displayName,
                 realName: oauthresources.name.givenName + oauthresources.name.familyName,
                 website: oauthresources.url,
-                location: oauthresources.placesLived[0].value,
+                location: (oauthresources.placesLived)?.getAt(0)?.value?:'',
                 birthday: "",
                 aboutMe: "",
                 pathToAvatar: oauthresources.image.url,
