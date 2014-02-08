@@ -20,12 +20,12 @@
 }
 .tag-square {
     width:150px;
-    height:100px;
+    height:30px;
     background-color:#d9534f;
     border-radius:3px;
     margin-top:5px;
     margin-bottom:5px;
-    padding-top: 25px;
+    padding-top: 0px;
     color: #fff;
     font-size: 2em;
     text-align: center;
