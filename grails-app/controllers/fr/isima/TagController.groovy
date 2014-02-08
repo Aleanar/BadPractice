@@ -27,6 +27,11 @@ class TagController {
         redirect(action: "show", id: tagInstance.id)
     }
 
+    def list(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+        [tagInstanceList: Tag.list(params), tagInstanceTotal: Tag.count()]
+    }
+
     def update(Long id, Long version) {
         if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
 
