@@ -55,7 +55,7 @@
 
             <g:formRemote name="tagAddForm" url="[controller:'tag', action:'insertTag']" update="resultAddingTag">
                 <g:render template="../tag/form"/>
-                <g:submitButton name="tag.create.label"/>
+                <g:submitButton name="${message(code: 'tag.create.button.label', default: 'Create')}"/>
             </g:formRemote>
         </div>
 	</body>
