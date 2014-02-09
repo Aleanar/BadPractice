@@ -17,7 +17,7 @@ environments {
             url = "jdbc:h2:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
     }
-    test {
+    /*test {
         // DEMO EMBEDDED DATA SOURCE (INSTEAD OF USING THE JNDI DATA SOURCE)
         dataSource {
             pooled = true // one of 'create', 'create-drop', 'update', 'validate', ''
@@ -56,6 +56,29 @@ environments {
 
             dbCreate = 'update' // WARNING! on production, should probably be 'update' or 'validate'
             jndiName = 'java:comp/env/jdbc/mydb'
+        }
+    }*/
+    test {
+        dataSource {
+            dbCreate = "update"
+            url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+        }
+    }
+    production {
+        dataSource {
+            dbCreate = "update"
+            url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            pooled = true
+            properties {
+                maxActive = -1
+                minEvictableIdleTimeMillis=1800000
+                timeBetweenEvictionRunsMillis=1800000
+                numTestsPerEvictionRun=3
+                testOnBorrow=true
+                testWhileIdle=true
+                testOnReturn=true
+                validationQuery="SELECT 1"
+            }
         }
     }
 }
