@@ -6,13 +6,22 @@ import org.junit.*
 import grails.test.mixin.*
 
 @TestFor(UserController)
-@Mock(User)
+@Mock([User, UserService])
 class UserControllerTests {
 
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+
+        params["mail"] = "mottetalexandre@gmail.com"
+        params["displayName"] = "Alexandre MOTTET"
+        params["password"] = "PasswOrd!"
+        params["realName"] = ""
+        params["website"] = ""
+        params["location"] = ""
+        params["birthday"] = new Date(System.currentTimeMillis())
+        params["aboutMe"] = ""
+        params["pathToAvatar"] = ""
+        params["rank"] = Rank.Administrator
     }
 
     void testIndex() {
@@ -21,33 +30,10 @@ class UserControllerTests {
     }
 
     void testList() {
-
         def model = controller.list()
 
         assert model.userInstanceList.size() == 0
         assert model.userInstanceTotal == 0
-    }
-
-    void testCreate() {
-        def model = controller.create()
-
-        assert model.userInstance != null
-    }
-
-    void testSave() {
-        controller.save()
-
-        assert model.userInstance != null
-        assert view == '/user/create'
-
-        response.reset()
-
-        populateValidParams(params)
-        controller.save()
-
-        assert response.redirectedUrl == '/user/show/1'
-        assert controller.flash.message != null
-        assert User.count() == 1
     }
 
     void testShow() {
@@ -69,24 +55,47 @@ class UserControllerTests {
     }
 
     void testEdit() {
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = null
+
+        def model = controller.edit()
+
+        assert "/oauth/google/authenticate" == response.redirectedUrl
+        response.reset()
+
+        def user = new User()
+        user.id = 1
+        user.rank = Rank.Administrator
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = user
+
         controller.edit()
 
-        assert flash.message != null
         assert response.redirectedUrl == '/user/list'
 
         populateValidParams(params)
-        def user = new User(params)
+        user = new User(params)
 
         assert user.save() != null
 
         params.id = user.id
 
-        def model = controller.edit()
+        model = controller.edit()
 
         assert model.userInstance == user
     }
 
     void testUpdate() {
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = null
+
+        def model = controller.update()
+
+        assert "/home" == response.redirectedUrl
+        response.reset()
+
+        def user = new User()
+        user.id = 1
+        user.rank = Rank.Administrator
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = user
+
         controller.update()
 
         assert flash.message != null
@@ -95,18 +104,17 @@ class UserControllerTests {
         response.reset()
 
         populateValidParams(params)
-        def user = new User(params)
+        user = new User(params)
 
         assert user.save() != null
 
         // test invalid parameters in update
         params.id = user.id
-        //TODO: add invalid values to params object
+        params.mail = "fakeMail"
 
         controller.update()
 
         assert view == "/user/edit"
-        assert model.userInstance != null
 
         user.clearErrors()
 
@@ -126,12 +134,22 @@ class UserControllerTests {
         controller.update()
 
         assert view == "/user/edit"
-        assert model.userInstance != null
-        assert model.userInstance.errors.getFieldError('version')
         assert flash.message != null
     }
 
     void testDelete() {
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = null
+
+        controller.delete()
+
+        assert "/home" == response.redirectedUrl
+        response.reset()
+
+        def user = new User()
+        user.id = 1
+        user.rank = Rank.Administrator
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = user
+
         controller.delete()
         assert flash.message != null
         assert response.redirectedUrl == '/user/list'
@@ -139,7 +157,7 @@ class UserControllerTests {
         response.reset()
 
         populateValidParams(params)
-        def user = new User(params)
+        user = new User(params)
 
         assert user.save() != null
         assert User.count() == 1

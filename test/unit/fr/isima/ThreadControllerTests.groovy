@@ -6,41 +6,56 @@ import org.junit.*
 import grails.test.mixin.*
 
 @TestFor(ThreadController)
-@Mock(Thread)
+@Mock([Thread, Tag, UserService, PostService, TagService])
 class ThreadControllerTests {
 
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+
+        if(Tag.count == 0) {
+            def tag = new Tag()
+            tag.name = "Java"
+            tag.save()
+
+            tag = new Tag()
+            tag.name = "C++"
+            tag.save()
+        }
+
+        params["thread.title"] = "My title"
+        params["tag-name-auto"] = "1,2"
+        params["post.content"] = "My content"
     }
 
     void testIndex() {
         controller.index()
-        assert "/thread/list" == response.redirectedUrl
-    }
-
-    void testList() {
-
-        def model = controller.list()
-
-        assert model.threadInstanceList.size() == 0
-        assert model.threadInstanceTotal == 0
+        assert "/thread/create" == response.redirectedUrl
     }
 
     void testCreate() {
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = null
+
+        controller.create()
+
+        assert "/oauth/google/authenticate" == response.redirectedUrl
+
+        def user = new User()
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = user
+
         def model = controller.create()
 
         assert model.threadInstance != null
     }
 
     void testSave() {
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = null
+
         controller.save()
 
-        assert model.threadInstance != null
-        assert view == '/thread/create'
+        assert "/oauth/google/authenticate" == response.redirectedUrl
 
-        response.reset()
+        def user = new User()
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = user
 
         populateValidParams(params)
         controller.save()

@@ -1,40 +1,52 @@
 package fr.isima
 
-
-
-import org.junit.*
 import grails.test.mixin.*
 
 @TestFor(PostController)
-@Mock(Post)
+@Mock([Post, UserService, PostService])
 class PostControllerTests {
 
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        params["thread"] = new Thread()
+        params["content"] = "My content"
+        params["creationDate"] = new Date()
+        params["lastEditionDate"] = new Date()
     }
 
     void testIndex() {
         controller.index()
-        assert "/post/list" == response.redirectedUrl
-    }
-
-    void testList() {
-
-        def model = controller.list()
-
-        assert model.postInstanceList.size() == 0
-        assert model.postInstanceTotal == 0
+        assert "/home/index" == response.redirectedUrl
     }
 
     void testCreate() {
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = null
+
         def model = controller.create()
+
+        assert "/home" == response.redirectedUrl
+
+        def user = new User()
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = user
+
+        model = controller.create()
 
         assert model.postInstance != null
     }
 
     void testSave() {
+
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = null
+
+        def model = controller.save()
+
+        assert "/home" == response.redirectedUrl
+
+        def user = new User()
+        user.id = 1
+        user.rank = Rank.Administrator
+        session[controller.userService.USER_SESSION_OBJECT_NAME] = user
+
         controller.save()
 
         assert model.postInstance != null

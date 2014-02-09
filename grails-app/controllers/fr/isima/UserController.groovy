@@ -6,6 +6,8 @@ import org.springframework.dao.DataIntegrityViolationException
 import uk.co.desirableobjects.oauth.scribe.OauthService
 import org.scribe.model.Token
 
+import java.util.logging.Logger
+
 class UserController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -24,7 +26,10 @@ class UserController {
     }
 
     def show(Long id) {
-        def userInstance = userService.getUserById(id)
+        def userInstance = null
+        if(id)
+            userInstance = userService.getUserById(id)
+
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
             redirect(action: "list")
@@ -50,8 +55,10 @@ class UserController {
         def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
         def isAdmin = false//(userConnected.rank == Rank.Administrator)
 
-        if(userConnected.id != id && !isAdmin)
-            redirect(controller: "home")
+        if(userConnected.id != id && !isAdmin) {
+            redirect(action: "list")
+            return
+        }
 
         def userInstance = User.get(id)
         if (!userInstance) {
@@ -64,7 +71,9 @@ class UserController {
     }
 
     def update(Long id, Long version) {
+        println("Update")
         if(!session[userService.USER_SESSION_OBJECT_NAME]) {
+            println("!session[userService.USER_SESSION_OBJECT_NAME]")
             redirect(controller: "home")
             return
         }
@@ -72,11 +81,15 @@ class UserController {
         def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
         def isAdmin = (userConnected.rank == Rank.Administrator)
 
-        if(userConnected.id != id && !isAdmin)
+        if(userConnected.id != id && !isAdmin) {
             redirect(controller: "home")
+            println("userConnected.id != id && !isAdmin")
+            return
+        }
 
         def userInstance = User.get(id)
         if (!userInstance) {
+            println("!userInstance")
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
             redirect(action: "list")
             return

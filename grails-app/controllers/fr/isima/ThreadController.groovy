@@ -27,8 +27,14 @@ class ThreadController {
     def save() {
         if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(uri: "/oauth/google/authenticate")
 
+        def threadInstance = null
+        if(!params) {
+            render(view: "create", model: [threadInstance: threadInstance])
+            return
+        }
+
         def postInstance = new Post(params["post"])
-        def threadInstance = new Thread(params["thread"])
+        threadInstance = new Thread(params["thread"])
         threadInstance.firstPost = postInstance
         /*if(!threadInstance.tags)
             threadInstance.tags = new HashSet<Tag>()*/
