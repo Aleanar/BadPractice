@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-    $("#tag-name-auto").tokenInput("/BadPractice/tag/getTagsWithName", {
+    $("#tag-name-auto").tokenInput(tagautocompleteurl, {
         theme: "facebook"
     });
 });

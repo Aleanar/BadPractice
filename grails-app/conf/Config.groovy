@@ -71,12 +71,14 @@ environments {
         grails.logging.jul.usebridge = true
         welcomeMessage = "Welcome on the development environment!"
         oauth2Callback = 'http://localhost:8080/BadPractice'
+        tagautocompleteurl = '/BadPractice/tag/getTagsWithName'
     }
     production {
         grails.logging.jul.usebridge = false
         welcomeMessage = "Welcome on the production environment!"
         // TODO: grails.serverURL = "http://www.changeme.com"
         oauth2Callback = 'http://badpractice.herokuapp.com'
+        tagautocompleteurl = '/tag/getTagsWithName'
     }
 }
 

@@ -23,6 +23,7 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css" />
     <script src="${resource(dir: 'js', file: 'summernote.min.js')}"></script>
+    <script>var tagautocompleteurl = "${grailsApplication.config.tagautocompleteurl}"</script>
 	</head>
 	<body>
 
