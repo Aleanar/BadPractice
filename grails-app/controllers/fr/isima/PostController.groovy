@@ -71,7 +71,7 @@ class PostController {
         if(userConnected.id != postInstance.author.id && !isAdmin)
             redirect(controller: "home")
 
-        [postInstance: postInstance, threadInstance: postInstance.thread]
+        [postInstance: postInstance, threadInstance: postInstance.thread, isAdmin: isAdmin]
     }
 
     def update(Long id, Long version) {

@@ -38,6 +38,7 @@ class User {
     String pathToAvatar
     Rank rank
     int reputation
+    boolean ban
 
     static hasMany = [postsCreated:Post, votes:Vote]
 
@@ -51,5 +52,6 @@ class User {
         password nullable: true
         birthday nullable: true
         reputation min:0
+        ban nullable: false
     }
 }

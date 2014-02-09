@@ -204,11 +204,18 @@ class ThreadController {
         }
 
         /// Les tags sont au format idNum1,idNum2,idNum3...
-        params.get("tag-name-auto").split(",").each {
-            def tag = tagService.getTagById(Long.parseLong(it)).get(0)
-            /// On ajoute uniquement les nouveaux tags
-            if(!threadInstance.tags.contains(tag))
-                threadInstance.addToTags(tag)
+        def tags = params.get("tag-name-auto")
+        if (tags) {
+            def list = new ArrayList<Tag>()
+            params.get("tag-name-auto")?.split(",")?.each {
+                def tag = tagService.getTagById(Long.parseLong(it))
+                list.add(tag)
+            }
+            list.each {
+                /// On ajoute uniquement les nouveaux tags
+                if(!threadInstance.tags.contains(it))
+                    threadInstance.addToTags(it)
+            }
         }
 
         threadInstance.title = params.get("thread.title")

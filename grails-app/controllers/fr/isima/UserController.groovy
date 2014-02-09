@@ -31,7 +31,7 @@ class UserController {
         if (!userInstance) {
             log.warn "[USER-show] user does not exist"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
-            redirect(action: "list")
+            redirect(action: "index", controller: "home")
             return
         }
 
@@ -123,7 +123,7 @@ class UserController {
         if (!userInstance) {
             log.warn "[USER-delete] user ${id} not found"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
-            redirect(action: "list")
+            redirect(action: "index", controller: "home")
             return
         }
 
@@ -137,6 +137,29 @@ class UserController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
             redirect(action: "show", id: id)
         }
+    }
+
+    def ban(Long id, boolean ban) {
+
+        log.info "[USER-ban] called"
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
+
+        def userInstance = User.get(id)
+        if (!userInstance) {
+            log.warn "[USER-ban] user ${id} not found"
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
+            redirect(action: "index", controller: "home")
+            return
+        }
+
+        if (ban) {
+            userService.unban(userInstance)
+        } else {
+            userService.ban(userInstance)
+        }
+
+        redirect(action:"show", id:id)
+
     }
 
     /**
@@ -155,6 +178,13 @@ class UserController {
         def user = userService.getUserByMail(oauthresources.emails[0].value)
         if (!user) {
             user = userService.createUserWithGooglePlusInfo(oauthresources)
+        }
+
+        // Check if user is banned
+        if (user.ban) {
+            flash.message = message(code: 'user.ban.information.message', default: 'Yout user is ban')
+            redirect(action: "index", controller: "home")
+            return
         }
 
         session['user'] = user

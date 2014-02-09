@@ -31,6 +31,9 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="${createLink(uri: '/')}">${message(code: "site.title", default: "BadPractice")}</a>
                 </div>
+                <div style="position:absolute; left:calc(50% - 30px); top: 10px;">
+                    <img src="${resource(dir: 'images', file: 'favicon.png')}" alt="" style="height:30px;" />
+                </div>
                 <div class="navbar-collapse collapse navbar-right">
                             <g:userConnection />
                     <!--<div class="navbar-form navbar-right" role="form">

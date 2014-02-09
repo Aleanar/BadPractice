@@ -33,7 +33,8 @@ class UserService {
                 aboutMe: "",
                 pathToAvatar: oauthresources.image.url,
                 rank: Rank.User,
-                reputation: 0
+                reputation: 0,
+                ban: false
         )
 
         user.save()
@@ -49,6 +50,18 @@ class UserService {
         log.info "[UserService-updateUserRate] called for user ${user.id}"
         changeUserReputation( user, element.getValue() )
 
+    }
+
+    def ban (User user) {
+        log.info "[UserService-ban] called for user ${user.id}"
+        user.ban = true
+        user.merge()
+    }
+
+    def unban (User user) {
+        log.info "[UserService-unban] called for user ${user.id}"
+        user.ban = false
+        user.merge()
     }
 
 }
