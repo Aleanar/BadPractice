@@ -22,7 +22,10 @@ class PostController {
     }
 
     def save() {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
+            redirect(controller: "home");
+            return
+        }
 
         log.info "[POST-save] is called"
 
@@ -42,11 +45,13 @@ class PostController {
     def show(Long id) {
         log.info "[POST-show] is called"
 
-        def postInstance = postService.getPostById(id)
+        def postInstance
+        if(id)
+            postInstance = postService.getPostById(id)
         if (!postInstance) {
             log.warn "[POST-show] post not found"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.entityName.label', default: 'Post'), id])
-            redirect(action: "index")
+            redirect(action: "index", controller: "home")
             return
         }
 
@@ -57,11 +62,13 @@ class PostController {
         log.info "[POST-edit] is called for post ${id}"
         if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
-        def postInstance = postService.getPostById(id)
+        def postInstance = null
+        if(id)
+            postInstance = postService.getPostById(id)
         if (!postInstance) {
             log.warn "[POST-edit] post not found"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.entityName.label', default: 'Post'), id])
-            redirect(action: "index")
+            redirect(action: "index", controller: "home")
             return
         }
 
@@ -119,7 +126,9 @@ class PostController {
     def delete(Long id) {
         if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
 
-        def postInstance = postService.getPostById(id)
+        def postInstance = null
+        if(id)
+            postInstance = postService.getPostById(id)
         if (!postInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.entityName.label', default: 'Post'), id])
             redirect(action: "index")

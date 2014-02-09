@@ -26,7 +26,7 @@ class UserControllerTests {
 
     void testIndex() {
         controller.index()
-        assert "/user/list" == response.redirectedUrl
+        assert "/home/index" == response.redirectedUrl
     }
 
     void testList() {
@@ -40,7 +40,7 @@ class UserControllerTests {
         controller.show()
 
         assert flash.message != null
-        assert response.redirectedUrl == '/user/list'
+        assert response.redirectedUrl == '/home/index'
 
         populateValidParams(params)
         def user = new User(params)
@@ -152,7 +152,7 @@ class UserControllerTests {
 
         controller.delete()
         assert flash.message != null
-        assert response.redirectedUrl == '/user/list'
+        assert response.redirectedUrl == '/home/index'
 
         response.reset()
 

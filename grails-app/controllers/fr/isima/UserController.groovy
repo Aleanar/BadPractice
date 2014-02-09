@@ -28,9 +28,11 @@ class UserController {
     }
 
     def show(Long id) {
-		log.info "[USER-show] called"		def userInstance = null
+		log.info "[USER-show] called"
+        def userInstance = null
         if(id)
-            userInstance = userService.getUserById(id)        if (!userInstance) {
+            userInstance = userService.getUserById(id)
+        if (!userInstance) {
             log.warn "[USER-show] user does not exist"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
             redirect(action: "index", controller: "home")
@@ -49,16 +51,22 @@ class UserController {
 
     def edit(Long id) {
         log.info "[USER-edit] called"
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(uri: "/oauth/google/authenticate");return}
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
+            redirect(uri: "/oauth/google/authenticate");
+            return
+        }
 
         def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
-        def isAdmin = false//(userConnected.rank == Rank.Administrator)
+        def isAdmin = (userConnected.rank == Rank.Administrator)
 
-			log.warn "[USER-edit] user could not be edited"            return
+        if(userConnected.id != id && !isAdmin) {
+			log.warn "[USER-edit] user could not be edited"
+            redirect(uri: "/oauth/google/authenticate");
+            return
         }
 
         def userInstance = User.get(id)
-        if (!userInstance) {
+        if(!userInstance) {
             log.warn "[USER-edit] user not found"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
             redirect(action: "list")
@@ -69,7 +77,8 @@ class UserController {
     }
 
     def update(Long id, Long version) {
-		log.info "[USER-update] called"		if(!session[userService.USER_SESSION_OBJECT_NAME]) {
+		log.info "[USER-update] called"
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
             println("!session[userService.USER_SESSION_OBJECT_NAME]")
             redirect(controller: "home")
             return
@@ -114,7 +123,9 @@ class UserController {
 
     def delete(Long id) {
         log.info "[USER-delete] called"
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");
+            return
+        }
 
         if(session[userService.USER_SESSION_OBJECT_NAME].id == id)
             session[userService.USER_SESSION_OBJECT_NAME] = null;

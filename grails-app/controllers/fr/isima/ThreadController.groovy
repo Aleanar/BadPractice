@@ -28,7 +28,10 @@ class ThreadController {
 
     def save() {
         log.info "[THREAD-save] called"
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
+            redirect(controller: "home");
+            return
+        }
 
         def threadInstance = null
         if(!params) {
@@ -133,7 +136,9 @@ class ThreadController {
 
     def show(Long id) {
         log.info "[THREAD-show] called"
-        def threadInstance = threadService.getThreadById(id)
+        def threadInstance = null
+        if(id)
+            threadInstance = threadService.getThreadById(id)
         if (!threadInstance) {
             log.warn "[THREAD-show] thread does not exist"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), id])
@@ -156,9 +161,14 @@ class ThreadController {
 
     def edit(Long id) {
         log.info "[THREAD-edit] called"
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
+            redirect(controller: "home");
+            return
+        }
 
-        def threadInstance = threadService.getThreadById(id)
+        def threadInstance = null
+        if(id)
+            threadInstance = threadService.getThreadById(id)
 
         if (!threadInstance) {
             log.warn "[THREAD-edit] thread does not exist"
@@ -183,7 +193,9 @@ class ThreadController {
         log.info "[THREAD-update] called"
         if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
-        def threadInstance = threadService.getThreadById(id)
+        def threadInstance = null
+        if(id)
+            threadInstance = threadService.getThreadById(id)
         if (!threadInstance) {
             log.warn "[THREAD-update] thread does not exist"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), id])
@@ -241,7 +253,9 @@ class ThreadController {
         log.info "[THREAD-delete] called"
         if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
-        def threadInstance = threadService.getThreadById(id)
+        def threadInstance = null
+        if(id)
+            threadInstance = threadService.getThreadById(id)
         if (!threadInstance) {
             log.warn "[THREAD-delete] thread does not exist"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'thread.entityName.label', default: 'Thread'), id])

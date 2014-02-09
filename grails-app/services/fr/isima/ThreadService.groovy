@@ -82,6 +82,6 @@ class ThreadService {
 
     def updateThread(Thread thread) {
         log.info "[ThreadService-updateThread] called for thread ${thread.id}"
-        thread.save(failOnError: true)
+        thread.save()
     }
 }
