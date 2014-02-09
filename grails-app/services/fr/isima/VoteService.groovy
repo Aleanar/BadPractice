@@ -6,11 +6,14 @@ class VoteService {
     def userService
 
     def getVoteByPostId(long postId) {
+        log.info "[VoteService-getVoteByPostId] called for post ${postId}"
         def listVote = Vote.findAllByPost(postService.getPostById(postId))
         return listVote.size() - 2 * listVote.count { !it.up }
     }
 
     def addVote(long userId, long postId, boolean up) {
+
+        log.info "[VoteService-addVote] called for post ${postId}"
 
         def user = userService.getUserById(userId)
         def post = postService.getPostById(postId)

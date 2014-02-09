@@ -10,7 +10,8 @@ class VoteController {
     def userService
 
     def addVote() {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+        log.info "[VOTE-addVote] called"
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
         def up = params.getAt("up") == '1'
         def userId = session[userService.USER_SESSION_OBJECT_NAME].id

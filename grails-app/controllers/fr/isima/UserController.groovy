@@ -14,18 +14,22 @@ class UserController {
     def oauthService
 
     def index() {
-        redirect(action: "list", params: params)
+        log.info "[USER-index] called, redirect to home"
+        redirect(action: "index", controller: "home", params: params)
     }
 
     def list(Integer max) {
+        log.info "[USER-list] called"
         params.max = Math.min(max ?: 10, 100)
 
         [userInstanceList: userService.getAllUsers(), userInstanceTotal: User.count()]
     }
 
     def show(Long id) {
+        log.info "[USER-show] called"
         def userInstance = userService.getUserById(id)
         if (!userInstance) {
+            log.warn "[USER-show] user does not exist"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
             redirect(action: "list")
             return
@@ -42,19 +46,21 @@ class UserController {
     }
 
     def edit(Long id) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
-            redirect(uri: "/oauth/google/authenticate")
-            return
-        }
+        log.info "[USER-edit] called"
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(uri: "/oauth/google/authenticate");return}
 
         def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
         def isAdmin = false//(userConnected.rank == Rank.Administrator)
 
-        if(userConnected.id != id && !isAdmin)
+        if(userConnected.id != id && !isAdmin) {
+            log.warn "[USER-edit] user could not be edited"
             redirect(controller: "home")
+            return
+        }
 
         def userInstance = User.get(id)
         if (!userInstance) {
+            log.warn "[USER-edit] user not found"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
             redirect(action: "list")
             return
@@ -64,19 +70,21 @@ class UserController {
     }
 
     def update(Long id, Long version) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
-            redirect(controller: "home")
-            return
-        }
+        log.info "[USER-update] called"
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
         def userConnected = session[userService.USER_SESSION_OBJECT_NAME]
         def isAdmin = (userConnected.rank == Rank.Administrator)
 
-        if(userConnected.id != id && !isAdmin)
+        if(userConnected.id != id && !isAdmin) {
+            log.warn "[USER-update] user ${userConnected.id} is not allowed to update user ${id}"
             redirect(controller: "home")
+            return
+        }
 
         def userInstance = User.get(id)
         if (!userInstance) {
+            log.warn "[USER-update] user ${id} not found"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
             redirect(action: "list")
             return
@@ -95,6 +103,7 @@ class UserController {
         userInstance.properties = params
 
         if (!userInstance.save(flush: true)) {
+            log.info "[USER-update] user ${id} could not be updated"
             render(view: "edit", model: [userInstance: userInstance])
             return
         }
@@ -104,16 +113,15 @@ class UserController {
     }
 
     def delete(Long id) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) {
-            redirect(controller: "home")
-            return
-        }
+        log.info "[USER-delete] called"
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
         if(session[userService.USER_SESSION_OBJECT_NAME].id == id)
             session[userService.USER_SESSION_OBJECT_NAME] = null;
 
         def userInstance = User.get(id)
         if (!userInstance) {
+            log.warn "[USER-delete] user ${id} not found"
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
             redirect(action: "list")
             return
@@ -125,6 +133,7 @@ class UserController {
             redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
+            log.info "[USER-delete] user ${id} could not be deleted"
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.entityName.label', default: 'User'), id])
             redirect(action: "show", id: id)
         }

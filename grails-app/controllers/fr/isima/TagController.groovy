@@ -11,15 +11,17 @@ class TagController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
+        log.info "[TAG-index] called, redirect to home"
         redirect(controller: "home", action: "index", params: params)
     }
 
     def save() {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
         def tagInstance = new Tag(params)
         if (!tagService.addTag(tagInstance)) {
-            render(view: "create", model: [tagInstance: tagInstance])
+            log.error "[TAG-save] could not save tag"
+            render(view: "create", controllerName: "thread", model: [tagInstance: tagInstance])
             return
         }
 
@@ -28,12 +30,13 @@ class TagController {
     }
 
     def list(Integer max) {
+        log.info "[TAG-list] called"
         params.max = Math.min(max ?: 10, 100)
         [tagInstanceList: Tag.list(params), tagInstanceTotal: Tag.count()]
     }
 
-    def update(Long id, Long version) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+    /*def update(Long id, Long version) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
         def tagInstance = Tag.get(id)
         if (!tagInstance) {
@@ -61,10 +64,10 @@ class TagController {
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'tag.entityName.label', default: 'Tag'), tagInstance.id])
         redirect(action: "show", id: tagInstance.id)
-    }
+    }*/
 
-    def delete(Long id) {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+    /*def delete(Long id) {
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
         def tagInstance = Tag.get(id)
         if (!tagInstance) {
@@ -82,14 +85,14 @@ class TagController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'tag.entityName.label', default: 'Tag'), id])
             redirect(action: "show", id: id)
         }
-    }
+    }*/
 
     def getTagsWithName() {
         render tagService.getTagsWithName(params) as JSON
     }
 
     def insertTag() {
-        if(!session[userService.USER_SESSION_OBJECT_NAME]) redirect(controller: "home")
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
         def tagInstance = new Tag(params)
 
