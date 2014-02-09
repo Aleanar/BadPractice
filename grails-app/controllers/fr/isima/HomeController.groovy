@@ -11,4 +11,8 @@ class HomeController {
         [threads: threadService.threads()]
 
     }
+
+    def error404() {
+        log.info "[HOME-404] called"
+    }
 }

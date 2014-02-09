@@ -13,6 +13,9 @@
 </head>
 
 <body>
+
+<g:jumbotron />
+
 <g:flashMessage/>
 <div class="row">
     <div class="">

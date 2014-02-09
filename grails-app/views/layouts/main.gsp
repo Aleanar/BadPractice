@@ -48,7 +48,6 @@
             </div>
         </div>
 
-        <g:jumbotron />
         <div id="mainContent" class="container" style="padding-bottom:60px;">
             <g:layoutBody/>
         </div>
