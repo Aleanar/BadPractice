@@ -76,7 +76,7 @@ environments {
         grails.logging.jul.usebridge = false
         welcomeMessage = "Welcome on the production environment!"
         // TODO: grails.serverURL = "http://www.changeme.com"
-        oauth2Callback = 'http://aleanar.cloudbees.com/BadPractice'
+        oauth2Callback = 'http://badpractice.herokuapp.com'
     }
 }
 
