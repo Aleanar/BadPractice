@@ -15,6 +15,22 @@ class TagController {
         redirect(controller: "home", action: "index", params: params)
     }
 
+    def show(Long id) {
+        log.info "[TAG-show] called for tag ${id}"
+        if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
+
+        def tagInstance = tagService.getTagById(id)
+        if (!tagInstance) {
+            log.warn "[TAG-show] tag ${id} does not exist"
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'tag.entityName.label', default: 'Tag'), id])
+            redirect(action: "list")
+            return
+        }
+
+        [tagInstance: tagInstance]
+
+    }
+
     def save() {
         if(!session[userService.USER_SESSION_OBJECT_NAME]) {redirect(controller: "home");return}
 
