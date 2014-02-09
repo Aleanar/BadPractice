@@ -28,14 +28,22 @@
             <g:if test="${isEditable}" >
                 <div class="btn-group pull-right" style="margin-top:20px;">
                     <g:link class="btn btn-default btn-sm" action="edit" id="${threadInstance.id}"><span class="glyphicon glyphicon-pencil"></span></g:link>
-                    <g:link class="btn btn-default btn-sm" action="delete" id="${threadInstance.id}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
-                        <span class="glyphicon glyphicon-remove" style="color:#d9534f;"></span>
-                    </g:link>
+
                 </div>
             </g:if>
             </div>
 
             <div class="clearfix"></div>
+
+            <div class="btn-group" style="top:2px;left:4px;">
+                <g:each in="${threadInstance.tags}" var="tag">
+
+                    <g:link class="btn btn-success btn-xs" action="show" controller="tag" id="${tag.id}">
+                        ${tag.name}
+                    </g:link>
+
+                </g:each>
+            </div>
 
             <g:set var="currentPost" value="${threadInstance.firstPost}" />
             <g:render template="../post/showPost"/>
@@ -51,7 +59,7 @@
 
 
             <g:if test="${session['user']}">
-                <g:form action="savePost" role="form">
+                <g:form action="savePost" role="form" style="margin-left:100px;">
                     <fieldset>
                         <g:render template="../post/form"/>
                     </fieldset>

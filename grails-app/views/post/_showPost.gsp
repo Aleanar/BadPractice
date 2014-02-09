@@ -52,7 +52,7 @@
 
     </div>
 
-    <div style="margin-right:100px;" class="">
+    <div style="margin-right:100px;margin-left:100px;" class="">
 
         <g:each in="${currentPost.posts}" var="comment">
             <blockquote class="blockquote-reverse" style="font-size:0.9em;">

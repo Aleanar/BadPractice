@@ -3,12 +3,13 @@ package fr.isima
 class HomeController {
 
     def threadService
+    def tagService
 
     def index() {
 
         log.info "[HOME-index]"
 
-        [threads: threadService.threads()]
+        [threads: threadService.threads(), tags: tagService.getAllTagsOrderByUse()]
 
     }
 

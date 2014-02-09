@@ -40,8 +40,12 @@
             <h1>${message(code: 'home.tagList.label', default: 'See threads by tags')}</h1>
         </div>
         <div class="well">
-        <button type="button" class="btn btn-default btn-lg btn-block">Block level button</button>
-        <button type="button" class="btn btn-default btn-lg btn-block">Block level button</button>
+            <g:link controller="tag" action="list" class="btn btn-success btn-lg btn-block">${message(code: 'home.tagList.all', default: 'See all tags')}</g:link>
+            <g:each in="${tags}" status="i" var="tagInstance">
+                <g:link controller="tag" action="show" id="${tagInstance.id}" class="btn btn-default btn-lg btn-block">
+                ${tagInstance.name}
+                </g:link>
+            </g:each>
         </div>
 
     </div>

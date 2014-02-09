@@ -10,11 +10,11 @@ if (typeof jQuery !== 'undefined') {
 
 $(document).ready(function() {
     $('#thread-editor').summernote({
-        height: '300px'
+        height: '300'
     });
     $('#post-editor').summernote();
     $('#comment-editor').summernote({
-        height: '100px',
+        height: '100',
         toolbar: [
             ['style', ['bold', 'italic', 'underline', 'clear']]
         ]

@@ -29,7 +29,7 @@
     <label for="content" class="col-sm-2 control-label">
         <g:message code="post.content.label" default="Content" />
     </label>
-    <div class="col-sm-10">     
+    <div class="col-sm-10">
         <g:textArea id="thread-editor" name="post.content">${threadInstance?.firstPost?.content}</g:textArea>
     </div>
 </div>
