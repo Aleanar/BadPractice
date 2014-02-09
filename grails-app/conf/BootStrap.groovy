@@ -127,7 +127,12 @@ class BootStrap {
 
         thread.save()*/
 
-        userService.getUserById(2).rank = Rank.Administrator
+        /*def user = userService.getUserByMail("mottetalexandre@gmail.com")
+        if (user)
+            user?.rank = Rank.Administrator
+        user = userService.getUserByMail("thealeanar@gmail.com")
+        if (user)
+            user?.rank = Rank.Administrator*/
     }
     def destroy = {
     }
