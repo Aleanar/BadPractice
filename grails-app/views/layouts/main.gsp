@@ -31,6 +31,11 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="${createLink(uri: '/')}">${message(code: "site.title", default: "BadPractice")}</a>
                 </div>
+
+                <ul class="nav navbar-nav">
+                    <li><g:link controller="thread" action="create">${message(code: "site.menu.ask", default: "Ask")}</g:link></li>
+                </ul>
+
                 <div style="position:absolute; left:calc(50% - 30px); top: 10px;">
                     <img src="${resource(dir: 'images', file: 'favicon.png')}" alt="" style="height:30px;" />
                 </div>
