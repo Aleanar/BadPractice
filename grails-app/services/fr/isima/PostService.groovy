@@ -6,11 +6,13 @@ class PostService {
 
     def getPostById(long id) {
 
+        log.info "[PostService-getPostById] called for post ${id}"
         Post.get(id)
 
     }
 
     def newPost(Post post) {
+        log.info "[PostService-newPost] called"
 
         // Answer added
         if (post.thread) {
@@ -26,6 +28,7 @@ class PostService {
     }
 
     def update(Post post) {
+        log.info "[PostService-update] called for post ${post.id}"
         post.save()
     }
 

@@ -7,6 +7,7 @@ class TagService {
      * @return tags
      */
     def getTagList() {
+        log.info "[TagService-getTagList] called"
         Tag.findAll()
     }
 
@@ -16,6 +17,7 @@ class TagService {
      * @return true if succeeded, false otherwise
      */
     def addTag(Tag tag) {
+        log.info "[TagService-addTag] called"
         tag.save(flush:true)
     }
 
@@ -25,6 +27,7 @@ class TagService {
      * @return A list of tags
      */
     def getTagById(Long id) {
+        log.info "[TagService-gettagById] called for tag ${id}"
         Tag.findById(id)
     }
 
@@ -34,6 +37,7 @@ class TagService {
      * @return all tags corresponding.
      */
     def getTagsWithName(params){
+        log.info "[TagService-getTagsWithName] called for tags ${params.q}"
         def queryBegin = {
             ilike("name", "${params.q}%") // term is the parameter send by jQuery autocomplete
             projections {
@@ -64,6 +68,7 @@ class TagService {
     }
 
     def getAllTagsOrderByUse() {
+        log.info "[TagService-getAllTagsOrderByUse] called"
         def tagsList = Tag.findAll();
         tagList.sort(new Comparator<Tag>() {
             @Override

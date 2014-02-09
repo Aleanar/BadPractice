@@ -10,6 +10,7 @@ class ThreadService {
      * @return true if succeeded, false otherwise
      */
     def newThread(Thread thread) {
+        log.info "[ThreadService-newThread] called"
         boolean status = thread.validate()
         status = thread.firstPost.validate() && status
 
@@ -19,11 +20,14 @@ class ThreadService {
             thread.firstPost.save()
             userService.updateUserRate(thread.firstPost.author, RateElement.ThreadCreated)
         }
+        else
+            log.warn "[ThreadService-newThread] thread is not a valid one"
 
         status
     }
 
     def threads() {
+        log.info "[ThreadService-threads] called"
         Thread.findAll()
     }
 
@@ -33,6 +37,7 @@ class ThreadService {
      * @return the thread
      */
     def getThreadById(long id) {
+        log.info "[ThreadService-getThreadById] called for thread ${id}"
         Thread.get(id)
     }
 
@@ -42,6 +47,7 @@ class ThreadService {
      * @return true if succeeded, false otherwise
      */
     def newPost(Post post) {
+        log.info "[ThreadService-newPost] called"
         post.save()
     }
 
@@ -51,6 +57,7 @@ class ThreadService {
      * @return true if succeeded, false otherwise
      */
     def editPost(Post post) {
+        log.info "[ThreadService-editPost] called for post ${post.id}"
         post.merge()
     }
 
@@ -60,15 +67,21 @@ class ThreadService {
      * @return true if succeeded, false otherwise
      */
     def voteForPost(Vote vote) {
+        log.info "[ThreadService-voteForPost] called"
         if (vote.post.thread && !vote.post.post)
             vote.save()
+        else
+            log.warn "[ThreadService-voteForPost] could not vote primary post"
+
     }
 
     def incrementView(Long id) {
+        log.info "[ThreadService-incrementView] called"
         ++Thread.get(id).viewCount;
     }
 
     def updateThread(Thread thread) {
+        log.info "[ThreadService-updateThread] called for thread ${thread.id}"
         thread.save(failOnError: true)
     }
 }

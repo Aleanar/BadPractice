@@ -6,6 +6,8 @@ class HomeController {
 
     def index() {
 
+        log.info "[HOME-index]"
+
         [threads: threadService.threads()]
 
     }

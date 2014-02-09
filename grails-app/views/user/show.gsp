@@ -73,10 +73,16 @@
             <g:form>
                 <fieldset class="buttons">
                     <g:hiddenField name="id" value="${userInstance.id}" />
-                    <g:link class="edit" action="edit" id="${userInstance.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+                    <g:hiddenField name="ban" value="${userInstance.ban}" />
+                    <g:link class="btn btn-default" action="edit" id="${userInstance.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
                     <g:if test="${isAdmin}" >
-                        <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-                    </g:if>
+                        <g:if test="${userInstance.ban}">
+                            <g:actionSubmit class="btn btn-danger" action="ban" value="${message(code: 'user.unban.label', default: 'UnBan User')}" onclick="return confirm('${message(code: 'user.unban.confirm.message', default: 'Are you sure?')}');" />
+                        </g:if>
+                        <g:elseif test="${!userInstance.ban}">
+                            <g:actionSubmit class="btn btn-danger" action="ban" value="${message(code: 'user.ban.label', default: 'Ban User')}" onclick="return confirm('${message(code: 'user.ban.confirm.message', default: 'Are you sure?')}');" />
+                        </g:elseif>
+                        </g:if>
                 </fieldset>
             </g:form>
         </g:if>

@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<g:flashMessage/>
 <div class="row">
     <div class="">
         <div class="pull-left">
