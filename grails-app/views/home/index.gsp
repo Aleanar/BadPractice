@@ -18,22 +18,33 @@
 
 <g:flashMessage/>
 <div class="row">
-    <div class="">
-        <div class="pull-left">
-            <g:newquestion class="" />
-        </div>
-        <h1>${message(code: 'home.threadList.label', default: 'Last Question')}</h1>
-    </div>
 </div>
 <div class="row">
-    <g:each in="${threads}" status="i" var="threadInstance">
-        <div class="col-md-10 well" style="padding:0 0 0 20px;">
-               <blockquote style="margin-bottom:0;">
-                   <g:link controller="thread" action="show" id="${threadInstance.id}">${fieldValue(bean: threadInstance, field: "title")}</g:link>
-                   <small><cite title="Source Title">${threadInstance.firstPost.author.displayName}</cite></small>
-               </blockquote>
+    <div class="col-md-8">
+        <div class="">
+            <h1>${message(code: 'home.threadList.label', default: 'Last Question')}</h1>
         </div>
-    </g:each>
+        <g:each in="${threads}" status="i" var="threadInstance">
+            <div class="well" style="padding:0 0 0 20px;">
+                <blockquote style="margin-bottom:0;">
+                    <g:link controller="thread" action="show" id="${threadInstance.id}">${fieldValue(bean: threadInstance, field: "title")}</g:link>
+                    <small><cite title="Source Title">${threadInstance.firstPost.author.displayName}</cite></small>
+                </blockquote>
+            </div>
+        </g:each>
+
+    </div>
+    <div class="col-md-4">
+
+        <div class="">
+            <h1>${message(code: 'home.tagList.label', default: 'See threads by tags')}</h1>
+        </div>
+        <div class="well">
+        <button type="button" class="btn btn-default btn-lg btn-block">Block level button</button>
+        <button type="button" class="btn btn-default btn-lg btn-block">Block level button</button>
+        </div>
+
+    </div>
 </div>
 </body>
 </html>
