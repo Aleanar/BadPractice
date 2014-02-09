@@ -27,6 +27,6 @@ class Thread {
 
     static constraints = {
         title blank:false
-        tags minSize:1
+        tags nullable:false, minSize:1
     }
 }

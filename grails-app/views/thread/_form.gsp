@@ -29,10 +29,8 @@
     <label for="content" class="col-sm-2 control-label">
         <g:message code="post.content.label" default="Content" />
     </label>
-    <div class="col-sm-10">
-        <ckeditor:editor id="content" name="post.content" height="300px" width="100%">
-            ${threadInstance?.firstPost?.content}
-        </ckeditor:editor>
+    <div class="col-sm-10">     
+        <g:textArea id="thread-editor" name="post.content">${threadInstance?.firstPost?.content}</g:textArea>
     </div>
 </div>
 
